@@ -2,8 +2,9 @@
 using namespace std;
 
 //Teams for allegience
-#define BLUE = 0
-#define RED = 1
+#define NEUTRAL 0
+#define BLUE 1
+#define RED 2
 //Ranks
 #define BLOCKADE -1
 #define DEAD 0
@@ -56,15 +57,10 @@ class Unit{
         }
         //other
         void die(){
-            setLocation(graveYard);
-            setRank(DEAD);
+            Location = graveYard;
+            Rank = DEAD;
+            Allegiance = NEUTRAL;
         }
-
-
-
-
-
-
 };
 
 class playerUI{
@@ -84,9 +80,10 @@ class GameHandler{
         const struct Space graveYard = {-1,-1};
     public:
         //constructor
+        /*
         GameHandler(Unit board[10][10]){
             copy(board, board+10, Board);
-        }
+        }*/
 
         void validateMove(){
 
@@ -100,13 +97,34 @@ class GameHandler{
         }
 
         void setup(){
+            //alternate grass and lake in the middle
+            for(int y=4;y<5;y++){
+                int x = 0;
+                for(int x=0;x<10;x++){
+                    for (int i = 0; i < 2; i++)
+                    {
+                        struct Space space = {x,y};
+                        Board[y][x] = Unit(space, NEUTRAL, DEAD, -10);
+                    }
+                    for (int i = 0; i < 2; i++)
+                    {
+                        struct Space space = {x,y};
+                        Board[y][x] = Unit(space, NEUTRAL, BLOCKADE, -10);
+                    }
+                    
+                    
+                    
+                }
+            }
+            //allow blue player to set up
+            int currentPlayer = BLUE;
+            
             
         }
 
         void battle(Unit attacker, Unit defender){
             int attackerRank = attacker.getRank();
             int defenderRank = defender.getRank();
-            bool attackerWin;
 
             //draw
             if (attackerRank == defenderRank){
