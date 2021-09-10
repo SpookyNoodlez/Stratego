@@ -85,8 +85,37 @@ class GameHandler{
             copy(board, board+10, Board);
         }*/
 
-        void validateMove(){
+        bool validateMove(Unit unit, struct Space currentLocation, struct Space attemptedLocation){
+            //check if same space clicked
+            if(currentLocation.x == attemptedLocation.x && currentLocation.y == attemptedLocation.y){
+                return false;
+            }
+            //check if alligned
+            bool x_aligned = false, y_aligned = false;
+            if(currentLocation.x == attemptedLocation.x){
+                x_aligned = true;
+            }
+            else if(currentLocation.y == attemptedLocation.y){
+                y_aligned = true;
+            }
+            else{
+                //not alligned
+                return false;
+            }
 
+
+
+            if(unit.getRank() == SCOUT){
+                if (x_aligned){
+                    if(attemptedLocation.x < currentLocation.x){
+                        for(int i = )
+                    }
+                }
+                
+            }
+            else{
+
+            }
         }
 
         bool movePiece(){
@@ -118,7 +147,7 @@ class GameHandler{
             }
             //allow blue player to set up
             int currentPlayer = BLUE;
-            
+
             
         }
 
