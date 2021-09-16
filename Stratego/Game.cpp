@@ -1,6 +1,8 @@
 #include "Game.h"
 
 
+
+
 //private functions
 void Game::initVariables() {
 	this->window = nullptr;
@@ -10,10 +12,20 @@ void Game::initWindow() {
 	this->videoMode.width = 1920;
 	this->window = new sf::RenderWindow(this->videoMode, "Stratego", sf::Style::Titlebar | sf::Style::Close);
 }
+void Game::initBoardSpace()
+{
+    this->boardSpace.setPosition(10.f, 10.f);
+    this->boardSpace.setSize(sf::Vector2f(100.f, 100.f));
+    this->boardSpace.setFillColor(sf::Color::Transparent);
+    this->boardSpace.setOutlineColor(sf::Color::Green);
+    this->boardSpace.setOutlineThickness(2.f);
+}
+
 //Constructors / Destructors
 Game::Game() {
 	this->initVariables();
 	this->initWindow();
+    this->initBoardSpace();
 }
 
 Game::~Game() {
@@ -48,10 +60,18 @@ void Game::pollEvents()
     }
 }
 
+void Game::updateMousePosition()
+{
+    //Relative to the window
+    std::cout << "Mouse position: x=" << sf::Mouse::getPosition(*this->window).x << " y=" << sf::Mouse::getPosition(*this->window).y << std::endl;
+    this->mousePosWindow = sf::Mouse::getPosition(*this->window);
+}
+
 //Functions
 void Game::update()
 {
     this->pollEvents();
+    this->updateMousePosition();
 }
 
 void Game::render()
@@ -60,9 +80,10 @@ void Game::render()
       render objects
       display frame in window*/
     
-    this->window->clear(sf::Color(255, 0, 0, 255));
+    this->window->clear(sf::Color());
 
-    //Draw game
+    //Draw game objects
+    this->window->draw(this->boardSpace);
 
     this->window->display();
 }
