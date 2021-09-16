@@ -1,11 +1,10 @@
 #include <iostream>
+#include <string>
+
+#include "Game.h"
 using namespace std;
 
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Network.hpp>
+
 
 //Teams for allegience
 #define NEUTRAL 0
@@ -113,7 +112,7 @@ class GameHandler{
             if(unit.getRank() == SCOUT){
                 if (x_aligned){
                     if(attemptedLocation.x < currentLocation.x){
-                        for(int x)
+                        //for(int x)
                     }
                 }
                 
@@ -131,11 +130,11 @@ class GameHandler{
         }
 
         void setup(){
-            //fill top with dead people
+            //fill top with red dead people
             for(int y=0;y<3;y++){
-                for(int x=0,x<10,x++){
+                for (int x = 0; x < 10; x++) {
                         struct Space space = {x,y};
-                        Board[y][x] = Unit(space, NEUTRAL, DEAD, -10);
+                        //Board[y][x] = new Unit(space, RED, DEAD, -10); //Unit(struct Space location, int allegiance, int rank, int id){
 				}     
 			}
             //alternate grass and lake in the middle
@@ -144,20 +143,20 @@ class GameHandler{
                     for (int i = 0; i < 2; i++)
                     {
                         struct Space space = {x,y};
-                        Board[y][x] = Unit(space, NEUTRAL, DEAD, -10);
+                        //Board[y][x] = new Unit(space, NEUTRAL, DEAD, -10);
                     }
                     for (int i = 0; i < 2; i++)
                     {
                         struct Space space = {x,y};
-                        Board[y][x] = Unit(space, NEUTRAL, BLOCKADE, -10);
+                        //Board[y][x] = Unit(space, NEUTRAL, BLOCKADE, -10);
                     }
                 }
             }
-            //fill bottom with dead people
+            //fill bottom with blude dead people
             for(int y=6;y<10;y++){
-                for(int x=0,x<10,x++){
+                for (int x = 0; x < 10; x++) {
                         struct Space space = {x,y};
-                        Board[y][x] = Unit(space, NEUTRAL, DEAD, -10);
+                        //Board[y][x] = Unit(space, BLUE, DEAD, -10);
 				}     
 			}
             //allow blue player to set up
@@ -205,18 +204,13 @@ class GameHandler{
         }
 };
 
-class Graphics{
-    private: 
-        int PlayerTurn;
-    public:
-        void tryMove(){
-
-        }
-};
-
 
 int main(){
+    Game game;
+    while (game.running()) {
+        game.update();
+        game.render();
+    }
 
-
-
+    return 0;
 }
