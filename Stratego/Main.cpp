@@ -13,7 +13,7 @@ class GameHandler{
             copy(board, board+10, Board);
         }*/
 
-        bool validateMove(Unit unit, struct Space currentLocation, struct Space attemptedLocation){
+        bool validateMove(Unit unit, struct ArrayCoords currentLocation, struct ArrayCoords attemptedLocation){
             //check if same space clicked
             if(currentLocation.x == attemptedLocation.x && currentLocation.y == attemptedLocation.y){
                 return false;
@@ -57,8 +57,8 @@ class GameHandler{
             //fill top with red dead people
             for(int y=0;y<3;y++){
                 for (int x = 0; x < 10; x++) {
-                        struct Space space = {x,y};
-                        //Board[y][x] = new Unit(space, RED, DEAD, -10); //Unit(struct Space location, int allegiance, int rank, int id){
+                        struct ArrayCoords space = {x,y};
+                       // Board[y][x] = new Unit(space, RED, DEAD, -10); //Unit(struct Space location, int allegiance, int rank, int id){
 				}     
 			}
             //alternate grass and lake in the middle
@@ -66,20 +66,20 @@ class GameHandler{
                 for(int x=0;x<10;x++){
                     for (int i = 0; i < 2; i++)
                     {
-                        struct Space space = {x,y};
-                        //Board[y][x] = new Unit(space, NEUTRAL, DEAD, -10);
+                        struct ArrayCoords space = {x,y};
+                      //  Board[y][x] = new Unit(space, NEUTRAL, DEAD, -10);
                     }
                     for (int i = 0; i < 2; i++)
                     {
-                        struct Space space = {x,y};
-                        //Board[y][x] = Unit(space, NEUTRAL, BLOCKADE, -10);
+                        struct ArrayCoords space = {x,y};
+                    //    Board[y][x] = Unit(space, NEUTRAL, BLOCKADE, -10);
                     }
                 }
             }
-            //fill bottom with blude dead people
+            //fill bottom with blue dead people
             for(int y=6;y<10;y++){
                 for (int x = 0; x < 10; x++) {
-                        struct Space space = {x,y};
+                        struct ArrayCoords space = {x,y};
                         //Board[y][x] = Unit(space, BLUE, DEAD, -10);
 				}     
 			}

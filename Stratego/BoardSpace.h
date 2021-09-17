@@ -3,6 +3,9 @@
 #ifndef BOARDSPACE_H
 #define BOARDSPACE_H
 
+#include "Unit.h"
+
+
 class BoardSpace
 {
 private:

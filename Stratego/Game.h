@@ -12,6 +12,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
+#include <istream>
 
 #include "Unit.h"
 
@@ -28,18 +30,22 @@ private:
 	sf::Vector2i mousePosWindow;
 
 	//Game objects
-	sf::RectangleShape boardSpace;
+	sf::RectangleShape board[10][10];
 
 	//Texture stuff
-	sf::Texture background;
+	sf::Texture backgroundTexture;
+	sf::Sprite backgroundSprite;
 
 	//private functions
 	void initVariables();
 	void initWindow();
 	void initBoardSpace();
+	void initTexture();
+	void initSprite();
 public:
 	//constructor
 	Game();
+	//destructor
 	~Game();
 
 	//Accesors
@@ -50,6 +56,7 @@ public:
 	void render();
 	void pollEvents();
 	void updateMousePosition();
+	void renderBoard();
 };
 
 #endif // !GAME_H

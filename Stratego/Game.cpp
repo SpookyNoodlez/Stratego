@@ -2,7 +2,6 @@
 
 
 
-
 //private functions
 void Game::initVariables() {
 	this->window = nullptr;
@@ -14,11 +13,31 @@ void Game::initWindow() {
 }
 void Game::initBoardSpace()
 {
-    this->boardSpace.setPosition(10.f, 10.f);
-    this->boardSpace.setSize(sf::Vector2f(100.f, 100.f));
-    this->boardSpace.setFillColor(sf::Color::Transparent);
-    this->boardSpace.setOutlineColor(sf::Color::Green);
-    this->boardSpace.setOutlineThickness(2.f);
+    const float startingX = 100.f, startingY = 30.f;
+    float posX = startingX, posY = startingY;
+
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++){
+            this->board[j][i].setPosition(posX, posY);
+            this->board[j][i].setSize(sf::Vector2f(100.f, 100.f));
+            this->board[j][i].setFillColor(sf::Color::Blue);
+            this->board[j][i].setOutlineColor(sf::Color::Green);
+            this->board[j][i].setOutlineThickness(2.f);
+
+            posX = posX + 100;
+        }
+        posY = posY + 100;
+        posX = startingX;
+    }
+    
+}
+
+void Game::initTexture()
+{
+}
+
+void Game::initSprite()
+{
 }
 
 //Constructors / Destructors
@@ -26,6 +45,8 @@ Game::Game() {
 	this->initVariables();
 	this->initWindow();
     this->initBoardSpace();
+    this->initTexture();
+    this->initSprite();
 }
 
 Game::~Game() {
@@ -67,6 +88,15 @@ void Game::updateMousePosition()
     this->mousePosWindow = sf::Mouse::getPosition(*this->window);
 }
 
+void Game::renderBoard()
+{
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            this->window->draw(this->board[j][i]);
+        }
+    }
+}
+
 //Functions
 void Game::update()
 {
@@ -83,7 +113,7 @@ void Game::render()
     this->window->clear(sf::Color());
 
     //Draw game objects
-    this->window->draw(this->boardSpace);
+    renderBoard();
 
     this->window->display();
 }

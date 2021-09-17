@@ -24,49 +24,35 @@
 #define FLAG 12
 
 
-struct Space {
+struct ArrayCoords {
     int x;
     int y;
 };
 
-const struct Space graveYard = { -1,-1 };
-
 
 class Unit {
 private:
-    struct Space Location;
-    int Allegiance;
-    int Rank;
+    struct ArrayCoords location;
+    int allegiance;
+    int rank;
     int ID;
-    const struct Space graveYard = { -1,-1 };
 public:
+    //public graveyard space
+    const struct ArrayCoords graveYard = { -1,-1 };
+
     //constructor
-    Unit(struct Space location, int allegiance, int rank, int id) {
-        Location = location;
-        Allegiance = allegiance;
-        Rank = rank;
-        ID = id;
-    }
+    Unit(struct ArrayCoords location, int allegiance, int rank, int id);
+
     //getters
-    int getRank() {
-        return Rank;
-    }
-    struct Space getLocation() {
-        return Location;
-    }
+    int getRank();
+    struct ArrayCoords getLocation();
+
     //setters
-    void setRank(int rank) {
-        Rank = rank;
-    }
-    void setLocation(struct Space newLocation) {
-        Location = newLocation;
-    }
+    void setRank(int rank);
+    void setLocation(struct ArrayCoords newLocation);
+
     //other
-    void die() {
-        Location = graveYard;
-        Rank = DEAD;
-        Allegiance = NEUTRAL;
-    }
+    void die();
 };
 
 #endif // !UNIT_H
