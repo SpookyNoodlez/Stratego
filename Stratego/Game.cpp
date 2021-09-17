@@ -11,7 +11,7 @@ void Game::initWindow() {
 	this->videoMode.width = 1920;
 	this->window = new sf::RenderWindow(this->videoMode, "Stratego", sf::Style::Titlebar | sf::Style::Close);
 }
-void Game::initBoardSpace()
+void Game::initBoard()
 {
     const float startingX = 100.f, startingY = 30.f;
     float posX = startingX, posY = startingY;
@@ -44,7 +44,7 @@ void Game::initSprite()
 Game::Game() {
 	this->initVariables();
 	this->initWindow();
-    this->initBoardSpace();
+    this->initBoard();
     this->initTexture();
     this->initSprite();
 }
@@ -58,6 +58,7 @@ const bool Game::running() const {
 	return this->window->isOpen();
 }
 
+//Functions
 void Game::pollEvents()
 {
     //Event polling
@@ -86,6 +87,18 @@ void Game::updateMousePosition()
     //Relative to the window
     std::cout << "Mouse position: x=" << sf::Mouse::getPosition(*this->window).x << " y=" << sf::Mouse::getPosition(*this->window).y << std::endl;
     this->mousePosWindow = sf::Mouse::getPosition(*this->window);
+    //Relative to the view
+    this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
+}
+
+void Game::onClick() {
+    //this is how to check if clicking on a space
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        if (this->board[0][0].getGlobalBounds().contains(this->mousePosView)) {
+            //selected
+            this->board[0][0].setFillColor(sf::Color::Red);
+        }
+    }
 }
 
 void Game::renderBoard()
@@ -97,15 +110,18 @@ void Game::renderBoard()
     }
 }
 
-//Functions
+
+
 void Game::update()
 {
     this->pollEvents();
     this->updateMousePosition();
+    this->onClick();
 }
 
 void Game::render()
 {
+    
     /*clear old frame
       render objects
       display frame in window*/
@@ -113,7 +129,7 @@ void Game::render()
     this->window->clear(sf::Color());
 
     //Draw game objects
-    renderBoard();
+    this->renderBoard();
 
     this->window->display();
 }

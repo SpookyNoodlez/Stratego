@@ -12,6 +12,13 @@ private:
 	//Occupying unit
 	Unit occupier;
 
+	//The space's coordinates on the board
+	int xCoord;
+	int yCoord;
+
+	//Graphics
+	sf::RectangleShape shape;
+
 
 public:
 

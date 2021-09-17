@@ -3,6 +3,13 @@
 #ifndef UNIT_H
 #define UNIT_H
 
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/Network.hpp>
+
+
 //Teams for allegience
 #define NEUTRAL 0
 #define BLUE 1
@@ -36,12 +43,19 @@ private:
     int allegiance;
     int rank;
     int ID;
+    sf::Texture unitTexture;
+    sf::Sprite unitSprite;
+
+    //private functions
+    void initVariables();
+    void initSprite(char* texturePath);
+
 public:
     //public graveyard space
     const struct ArrayCoords graveYard = { -1,-1 };
 
     //constructor
-    Unit(struct ArrayCoords location, int allegiance, int rank, int id);
+    Unit(int allegiance, int rank, char* texturePath);
 
     //getters
     int getRank();

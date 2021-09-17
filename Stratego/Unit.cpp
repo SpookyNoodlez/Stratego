@@ -2,13 +2,27 @@
 
 
 
-//constructor
-Unit::Unit(ArrayCoords location, int allegiance, int rank, int ID)
+
+
+
+
+void Unit::initVariables()
 {
-    this->location = location;
+}
+
+void Unit::initSprite(char* texturePath)
+{
+    this->unitTexture.loadFromFile(texturePath);
+    this->unitSprite.setTexture(this->unitTexture);
+}
+
+//constructor
+Unit::Unit(int allegiance, int rank, char* texturePath)
+{
     this->allegiance = allegiance;
     this->rank = rank;
-    this->ID = ID;
+
+    initSprite(texturePath);
 }
 
 //getters
@@ -32,6 +46,7 @@ void Unit::setLocation(ArrayCoords newLocation)
 {
     this->location = newLocation;
 }
+
 
 //functions
 void Unit::die()

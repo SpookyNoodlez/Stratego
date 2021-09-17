@@ -28,6 +28,7 @@ private:
 	sf::VideoMode videoMode;
 	sf::Event ev;
 	sf::Vector2i mousePosWindow;
+	sf::Vector2f mousePosView;
 
 	//Game objects
 	sf::RectangleShape board[10][10];
@@ -39,7 +40,7 @@ private:
 	//private functions
 	void initVariables();
 	void initWindow();
-	void initBoardSpace();
+	void initBoard();
 	void initTexture();
 	void initSprite();
 public:
@@ -56,6 +57,7 @@ public:
 	void render();
 	void pollEvents();
 	void updateMousePosition();
+	void onClick();
 	void renderBoard();
 };
 
