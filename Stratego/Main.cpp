@@ -3,15 +3,7 @@
 using namespace std;
 
 
-class GameHandler{
-    private:
-        Unit Board[10][10];
-        
-    public:
-        /*
-        GameHandler(Unit board[10][10]){
-            copy(board, board+10, Board);
-        }*/
+/*
 
         bool validateMove(Unit unit, struct ArrayCoords currentLocation, struct ArrayCoords attemptedLocation){
             //check if same space clicked
@@ -89,45 +81,10 @@ class GameHandler{
             
         }
 
-        void battle(Unit attacker, Unit defender){
-            int attackerRank = attacker.getRank();
-            int defenderRank = defender.getRank();
 
-            //draw
-            if (attackerRank == defenderRank){
-                attacker.die();
-                defender.die();
-            }
-            //spy kills marshal
-            else if(attackerRank == SPY && defenderRank == MARSHAL){
-                attacker.setLocation(defender.getLocation());
-                defender.die();
-            }
-            //bomb is defused
-            else if(attackerRank == MINER && defenderRank == BOMB){
-                attacker.setLocation(defender.getLocation());
-                defender.die();
-            }
-            //bomb is triggered
-            else if(defenderRank == BOMB){
-                attacker.die();
-            }
-            //flag is captured
-            else if(defenderRank == FLAG){
-                //WIN THE GAME
-            }
-            //normal attacker win
-            else if(attackerRank > defenderRank){
-                attacker.setLocation(defender.getLocation());
-                defender.die();
-            }
-            //normal defender win
-            else{
-                attacker.die();
-            }
-        }
+        
 };
-
+*/
 
 int main(){
     Game game;

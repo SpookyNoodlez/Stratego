@@ -1,18 +1,18 @@
 #include "Unit.h"
-
-
-
-
-
+#include "iostream"
+#include "string"
 
 
 void Unit::initVariables()
 {
 }
 
-void Unit::initSprite(char* texturePath)
+void Unit::initSprite(const char* texturePath)
 {
-    this->unitTexture.loadFromFile(texturePath);
+    if (!this->unitTexture.loadFromFile(texturePath)) {
+        std::cout << "Could not load unit texture";
+    }
+    
     this->unitSprite.setTexture(this->unitTexture);
 }
 
@@ -25,16 +25,26 @@ Unit::Unit(int allegiance, int rank, char* texturePath)
     initSprite(texturePath);
 }
 
+Unit::Unit()
+{
+    this->allegiance = NEUTRAL;
+    this->rank = DEAD;
+
+    initSprite("Textures/0_blue.png");
+}
+
 //getters
 int Unit::getRank()
 {
     return this->rank;
 }
-
-ArrayCoords Unit::getLocation()
+/*
+sf::Sprite Unit::getUnitSprite()
 {
-    return this->location;
+    return this->unitSprite;
 }
+*/
+
 
 //setters
 void Unit::setRank(int rank)
@@ -42,16 +52,15 @@ void Unit::setRank(int rank)
     this->rank = rank;
 }
 
-void Unit::setLocation(ArrayCoords newLocation)
-{
-    this->location = newLocation;
+void Unit::setAllegiance(int allegiance) {
+    this->allegiance = allegiance;
 }
+
 
 
 //functions
 void Unit::die()
 {
-    this->location = this->graveYard;
     this->rank = DEAD;
     this->allegiance = NEUTRAL;
 }

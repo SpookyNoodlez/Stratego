@@ -39,31 +39,39 @@ struct ArrayCoords {
 
 class Unit {
 private:
-    struct ArrayCoords location;
     int allegiance;
     int rank;
-    int ID;
+
     sf::Texture unitTexture;
-    sf::Sprite unitSprite;
+    
 
     //private functions
     void initVariables();
-    void initSprite(char* texturePath);
+    
 
 public:
     //public graveyard space
     const struct ArrayCoords graveYard = { -1,-1 };
 
+    //public variables
+    sf::Sprite unitSprite;
+
+
     //constructor
     Unit(int allegiance, int rank, char* texturePath);
+    //Default constructor
+    Unit();
 
     //getters
     int getRank();
-    struct ArrayCoords getLocation();
+    //sf::Sprite getUnitSprite();
+    //struct ArrayCoords getLocation();
 
     //setters
     void setRank(int rank);
-    void setLocation(struct ArrayCoords newLocation);
+    void setAllegiance(int allegiance);
+    //void setLocation(struct ArrayCoords newLocation);
+    void initSprite(const char* texturePath);
 
     //other
     void die();
