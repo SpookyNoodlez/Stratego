@@ -28,7 +28,7 @@ Unit::Unit(int allegiance, int rank, char* texturePath)
 Unit::Unit()
 {
     this->allegiance = NEUTRAL;
-    this->rank = DEAD;
+    //this->rank = DEAD;
 
     initSprite("Textures/0_blue.png");
 }

@@ -41,11 +41,15 @@ public:
 	Unit* getUnitPtr();
 	float getPixelX();
 	float getPixelY();
+	float getX();
+	float getY();
 
 	//setters
 	void setUnitPtr(Unit* unitPtr);
 	void setPixelX(float x);
 	void setPixelY(float y);
+	void setX(int x);
+	void setY(int y);
 
 	//Functions
 	void initShape(float scale);

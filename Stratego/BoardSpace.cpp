@@ -5,6 +5,7 @@
 BoardSpace::BoardSpace()
 {
 	initShape(1.f);
+	this->setUnitPtr(nullptr);
 }
 
 //getters
@@ -28,6 +29,18 @@ float BoardSpace::getPixelY()
 	return this->pixel_y;
 }
 
+float BoardSpace::getX()
+{
+	return this->xCoord;
+}
+
+float BoardSpace::getY()
+{
+	return this->yCoord;
+}
+
+
+
 //setters
 void BoardSpace::setUnitPtr(Unit* unitPtr)
 {
@@ -43,6 +56,17 @@ void BoardSpace::setPixelY(float y)
 {
 	this->pixel_y = y;
 }
+
+void BoardSpace::setX(int x)
+{
+	this->xCoord = x;
+}
+
+void BoardSpace::setY(int y)
+{
+	this->yCoord = y;
+}
+
 
 
 //functions
@@ -90,8 +114,3 @@ void BoardSpace::initShape(float scale)
 	this->shape.setOutlineColor(sf::Color::White);
 	this->shape.setOutlineThickness(2.f);
 }
-
-
-
-
-

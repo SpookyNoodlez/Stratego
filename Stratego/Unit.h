@@ -21,7 +21,7 @@
 #define SCOUT 2
 #define MINER 3
 #define SERGEANT 4
-#define LIUTENANT 5
+#define LIEUTENANT 5
 #define CAPTAIN 6
 #define MAJOR 7
 #define COLONEL 8
