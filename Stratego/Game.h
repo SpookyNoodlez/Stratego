@@ -106,6 +106,7 @@ public:
 	void moveUnit(BoardSpace* from, BoardSpace* to);
 	bool validateMove(BoardSpace* from, BoardSpace* to);
 	bool validateSetupMove(BoardSpace* to);
+	void onClick();
 };
 
 #endif // !GAME_H

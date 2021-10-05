@@ -453,35 +453,27 @@ bool Game::validateMove(BoardSpace* from, BoardSpace* to)
 
 
 void Game::clickLogicDuringGame() {
-    //Check if clicking on main board
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        if (this->mouseHeld == false) { // can't hold down mouse PROBLEM HERE GET RID OF THIS TO GET WORKING
-            this->mouseHeld = true;
-            for (int i = 0; i < mainBoardSize; i++) {
-                for (int j = 0; j < mainBoardSize; j++) {
-                    if (this->board[i][j].isClicked(&this->mousePosView)) {
-                        //if there is a unit that is not a bomb or flag and other unit not selected yet, store the space
-                        if (!this->unitIsSelected && this->board[i][j].getUnitPtr() != nullptr && this->board[i][j].getUnitPtr()->getRank() != BOMB && this->board[i][j].getUnitPtr()->getRank() != FLAG && this->board[i][j].getUnitPtr()->getRank() != BLOCKADE) {
-                            this->unitIsSelected = true;
-                            this->board[i][j].changeColour(sf::Color::Red);
-                            this->selectedSpace = &board[i][j];
-                        }
-                        else if (this->unitIsSelected) {
-                            if (validateMove(this->selectedSpace, &board[i][j])) {
-                                moveUnit(this->selectedSpace, &board[i][j]);
-                                this->selectedSpace->changeColour(sf::Color::Green);
-                                this->selectedSpace = nullptr;
-                                this->unitIsSelected = false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        else {
-            this->mouseHeld = false;
-        }
-    }
+	//Check if clicking on main board
+	for (int i = 0; i < mainBoardSize; i++) {
+		for (int j = 0; j < mainBoardSize; j++) {
+			if (this->board[i][j].isClicked(&this->mousePosView)) {
+				//if there is a unit that is not a bomb or flag and other unit not selected yet, store the space
+				if (!this->unitIsSelected && this->board[i][j].getUnitPtr() != nullptr && this->board[i][j].getUnitPtr()->getRank() != BOMB && this->board[i][j].getUnitPtr()->getRank() != FLAG && this->board[i][j].getUnitPtr()->getRank() != BLOCKADE) {
+					this->unitIsSelected = true;
+					this->board[i][j].changeColour(sf::Color::Red);
+					this->selectedSpace = &board[i][j];
+				}
+				else if (this->unitIsSelected) {
+					if (validateMove(this->selectedSpace, &board[i][j])) {
+						moveUnit(this->selectedSpace, &board[i][j]);
+						this->selectedSpace->changeColour(sf::Color::Green);
+						this->selectedSpace = nullptr;
+						this->unitIsSelected = false;
+					}
+				}
+			}
+		}
+	}
 }
 
 bool Game::validateSetupMove(BoardSpace* to) {//ONLY ON BOTTOM BOARD
@@ -501,66 +493,49 @@ bool Game::validateSetupMove(BoardSpace* to) {//ONLY ON BOTTOM BOARD
 }
 
 void Game::clickLogicDuringSetup() {
-    //Check if clicking on main board
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        if (this->mouseHeld == false){
-            this->mouseHeld = true;
-            for (int i = 0; i < mainBoardSize; i++) {
-                for (int j = 0; j < mainBoardSize; j++) {
-                    if (this->board[i][j].isClicked(&this->mousePosView)) {
+	//Check if clicking on main board
+	for (int i = 0; i < mainBoardSize; i++) {
+		for (int j = 0; j < mainBoardSize; j++) {
+			if (this->board[i][j].isClicked(&this->mousePosView)) {
 
-                        if (!this->unitIsSelected && this->board[i][j].getUnitPtr() != nullptr && this->board[i][j].getUnitPtr()->getRank() != BLOCKADE) {
-                            this->unitIsSelected = true;
-                            this->board[i][j].changeColour(sf::Color::Red);
-                            this->selectedSpace = &board[i][j];
-                        }
-                        else if (this->unitIsSelected) {
-                            if (validateSetupMove(&board[i][j])) {//new validate function
-                                moveUnit(this->selectedSpace, &board[i][j]);
-                                this->selectedSpace->changeColour(sf::Color::Green);
-                                this->selectedSpace = nullptr;
-                                this->unitIsSelected = false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        else {
-            this->mouseHeld = false;
-        }
-    }
+				if (!this->unitIsSelected && this->board[i][j].getUnitPtr() != nullptr && this->board[i][j].getUnitPtr()->getRank() != BLOCKADE) {
+					this->unitIsSelected = true;
+					this->board[i][j].changeColour(sf::Color::Red);
+					this->selectedSpace = &board[i][j];
+				}
+				else if (this->unitIsSelected) {
+					if (validateSetupMove(&board[i][j])) {//new validate function
+						moveUnit(this->selectedSpace, &board[i][j]);
+						this->selectedSpace->changeColour(sf::Color::Green);
+						this->selectedSpace = nullptr;
+						this->unitIsSelected = false;
+					}
+				}
+			}
+		}
+	}
 
-    //Check if clicking on side board
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        std::cout << "mouseHeld = " << mouseHeld << "\n";
-        if (this->mouseHeld == false) {
-            this->mouseHeld = true;
-            for (int i = 0; i < sideBoardHeight; i++) {
-                for (int j = 0; j < sideBoardWidth; j++) {
-                    if (this->sideBoardBlue[j][i].isClicked(&this->mousePosView)) {
+	//Check if clicking on side board
+	for (int i = 0; i < sideBoardHeight; i++) {
+		for (int j = 0; j < sideBoardWidth; j++) {
+			if (this->sideBoardBlue[j][i].isClicked(&this->mousePosView)) {
 
-                        if (!this->unitIsSelected && this->sideBoardBlue[j][i].getUnitPtr() != nullptr) {
-                            this->unitIsSelected = true;
-                            this->sideBoardBlue[j][i].changeColour(sf::Color::Red);
-                            this->selectedSpace = &sideBoardBlue[j][i];
-                        }
-                        else if (this->unitIsSelected) {
-                            if (validateSetupMove(&sideBoardBlue[j][i])) {
-                                moveUnit(this->selectedSpace, &sideBoardBlue[j][i]);
-                                this->selectedSpace->changeColour(sf::Color::Green);
-                                this->selectedSpace = nullptr;
-                                this->unitIsSelected = false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        else {
-            this->mouseHeld = false;
-        }
-    }
+				if (!this->unitIsSelected && this->sideBoardBlue[j][i].getUnitPtr() != nullptr) {
+					this->unitIsSelected = true;
+					this->sideBoardBlue[j][i].changeColour(sf::Color::Red);
+					this->selectedSpace = &sideBoardBlue[j][i];
+				}
+				else if (this->unitIsSelected) {
+					if (validateSetupMove(&sideBoardBlue[j][i])) {
+						moveUnit(this->selectedSpace, &sideBoardBlue[j][i]);
+						this->selectedSpace->changeColour(sf::Color::Green);
+						this->selectedSpace = nullptr;
+						this->unitIsSelected = false;
+					}
+				}
+			}
+		}
+	}
 }
 
 
@@ -594,17 +569,31 @@ void Game::renderSideBoards()
 }
 
 
+void Game::onClick() {
+    //Check if clicking on main board
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        if (this->mouseHeld == false) {
+            this->mouseHeld = true;
+            if (this->setupTime) {
+                this->clickLogicDuringSetup();
+            }
+            else {
+                this->clickLogicDuringGame();
+            }
+        }
+        else {
+            this->mouseHeld = false;
+        }
+    }
+}
+
+
 
 void Game::update()
 {
     this->pollEvents();
     this->updateMousePosition();
-    if (this->setupTime) {
-        this->clickLogicDuringSetup();
-    }
-    else {
-        this->clickLogicDuringGame();
-    }
+    this->onClick();
 }
 
 void Game::render()
