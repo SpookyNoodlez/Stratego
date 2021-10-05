@@ -29,12 +29,12 @@ float BoardSpace::getPixelY()
 	return this->pixel_y;
 }
 
-float BoardSpace::getX()
+int BoardSpace::getX()
 {
 	return this->xCoord;
 }
 
-float BoardSpace::getY()
+int BoardSpace::getY()
 {
 	return this->yCoord;
 }

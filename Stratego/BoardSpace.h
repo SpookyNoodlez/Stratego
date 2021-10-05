@@ -41,8 +41,8 @@ public:
 	Unit* getUnitPtr();
 	float getPixelX();
 	float getPixelY();
-	float getX();
-	float getY();
+	int getX();
+	int getY();
 
 	//setters
 	void setUnitPtr(Unit* unitPtr);

@@ -74,6 +74,7 @@ private:
 	BoardSpace* selectedSpace;
 	bool unitIsSelected;
 	bool setupTime;
+	bool mouseHeld;
 
 	//private functions
 	void initVariables();
