@@ -1,9 +1,6 @@
 #include "Game.h"
 
-//For move validation
-#define FAIL 0
-#define MOVE 1
-#define BATTLE 2
+
 
 
 //private functions
@@ -478,63 +475,64 @@ int Game::validateMove(BoardSpace* from, BoardSpace* to)
         int xCoordBeingChecked;
         int yCoordBeingChecked;
         
-        Game::direction movementDirection;
+        //Game::Direction movementDirection;
+        int movementDirection;
 
         if (to->getY() == from->getY()) {
             if (to->getX() < from->getX()) 
             {
-                movementDirection = left;
+                movementDirection = LEFT;
             }
             else
             {
-                movementDirection = right;
+                movementDirection = RIGHT;
             }
         }
         else {
             if (to->getY() < from->getY())
             {
-                movementDirection = up;
+                movementDirection = UP;
             }
             else
             {
-                movementDirection = down;
+                movementDirection = DOWN;
             }
         }
         
-        if (movementDirection == left) {
+        if (movementDirection == LEFT) {
             xCoordBeingChecked = from->getX() - 1;
             yCoordBeingChecked = from->getY();
         }
-        else if (movementDirection == right)
+        else if (movementDirection == RIGHT)
         {
             xCoordBeingChecked = from->getX() + 1;
             yCoordBeingChecked = from->getY();
         }
-        else if (movementDirection == up)
+        else if (movementDirection == UP)
         {
             xCoordBeingChecked = from->getX();
             yCoordBeingChecked = from->getY() - 1;
         }
-        else {
+        else if (movementDirection == DOWN) {
             xCoordBeingChecked = from->getX();
             yCoordBeingChecked = from->getY() + 1;
         }
 
         do{
             spaceBeingChecked = &this->board[xCoordBeingChecked][yCoordBeingChecked];
-            if (movementDirection == left)
+            if (movementDirection == LEFT)
             {
                 xCoordBeingChecked--;
             }
-            else if (movementDirection == right)
+            else if (movementDirection == RIGHT)
             {
                 xCoordBeingChecked++;
             }
-            else if (movementDirection == up)
+            else if (movementDirection == UP)
             {
                 yCoordBeingChecked--;
             }
-            else if (movementDirection == down) 
+            else if (movementDirection == DOWN) 
             {
                 yCoordBeingChecked++;
             }
@@ -593,7 +591,7 @@ bool Game::validateSetupMove(BoardSpace* to) {//ONLY ON BOTTOM BOARD
         return false;
     }
 
-    std::cout << to->getY() << "\n";
+    //std::cout << to->getY() << "\n";
     if (to->getY() < 6 && to->onMainBoard == true) //Needs to check if its on main board
     {
         return false;

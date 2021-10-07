@@ -18,8 +18,21 @@
 #include "Unit.h"
 #include "BoardSpace.h"
 
-//Class that acts as the game engine
+//For move validation
+#define FAIL 0
+#define MOVE 1
+#define BATTLE 2
 
+//For movement directions
+#define LEFT 0
+#define RIGHT 1
+#define UP 2
+#define DOWN 3
+
+
+
+
+//Class that acts as the game engine
 class Game
 {
 private:
@@ -86,7 +99,7 @@ private:
 	void initUnits();
 	void spawnBlockades();
 
-	enum direction { left, right, up, down };
+	//enum class Direction { left, right, up, down };
 	
 
 public:
