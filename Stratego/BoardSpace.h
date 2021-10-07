@@ -24,7 +24,8 @@ private:
 	sf::RectangleShape shape;
 
 	//Game logic
-	bool mouseHeld = false;
+	
+
 
 	//private functions
 	
@@ -56,6 +57,9 @@ public:
 	void changePixelPosition(float x, float y);
 	void changeColour(sf::Color colour);
 	bool isClicked(sf::Vector2f* mousePosView);
+
+	//lazyness
+	bool onMainBoard;
 };
 
 

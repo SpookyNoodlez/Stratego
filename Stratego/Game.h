@@ -38,8 +38,9 @@ private:
 	static const int sideBoardWidth = 4;
 	static const int sideBoardHeight = 10;
 	BoardSpace sideBoardBlue[sideBoardWidth][sideBoardHeight];
-
 	BoardSpace sideBoardRed[sideBoardWidth][sideBoardHeight];
+
+	sf::RectangleShape startButton;
 
 	//All units in the game, manually initialised in initUnits()
 	/*
@@ -75,6 +76,7 @@ private:
 	bool unitIsSelected;
 	bool setupTime;
 	bool mouseHeld;
+	
 
 	//private functions
 	void initVariables();
@@ -83,6 +85,9 @@ private:
 	void initSideBoards();
 	void initUnits();
 	void spawnBlockades();
+
+	enum direction { left, right, up, down };
+	
 
 public:
 	//constructor
@@ -102,11 +107,13 @@ public:
 	void clickLogicDuringSetup();
 	void renderBoard();
 	void renderSideBoards();
+	void renderStartButton();
 	//void renderUnit(int y, int x);
 	void moveUnit(BoardSpace* from, BoardSpace* to);
-	bool validateMove(BoardSpace* from, BoardSpace* to);
+	int validateMove(BoardSpace* from, BoardSpace* to);
 	bool validateSetupMove(BoardSpace* to);
 	void onClick();
+	void battle(BoardSpace* attackerSpace, BoardSpace* defenderSpace);
 };
 
 #endif // !GAME_H

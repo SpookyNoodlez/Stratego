@@ -92,15 +92,8 @@ void BoardSpace::changeColour(sf::Color colour)
 
 bool BoardSpace::isClicked(sf::Vector2f* mousePosView)
 {
-	if (this->mouseHeld == false) {
-		this->mouseHeld = true;
-
-		if (this->shape.getGlobalBounds().contains(*mousePosView)) {
-			return true;
-		}
-	}
-	else {
-		this->mouseHeld = false; //Hold check not working
+	if (this->shape.getGlobalBounds().contains(*mousePosView)) {
+		return true;
 	}
 	
 	return false;

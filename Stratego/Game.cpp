@@ -1,5 +1,9 @@
 #include "Game.h"
-#include "iostream"
+
+//For move validation
+#define FAIL 0
+#define MOVE 1
+#define BATTLE 2
 
 
 //private functions
@@ -15,6 +19,12 @@ void Game::initVariables() {
         this->blockades[i].setRank(BLOCKADE);
         this->blockades[i].initSprite("Textures/boat.png");
     }
+    this->startButton.setFillColor(sf::Color::White);
+    this->startButton.setOutlineColor(sf::Color::Blue);
+    this->startButton.setOutlineThickness(2.f);
+    this->startButton.setSize(sf::Vector2f(400.f, 100.f));
+    this->startButton.setScale(sf::Vector2f(0.7f, 0.7f));
+    this->startButton.setPosition(345.f, 777.f);
 }
 
 void Game::initWindow() {
@@ -39,7 +49,9 @@ void Game::initBoard()
             this->board[j][i].setPixelY(posY);
             this->board[j][i].initShape(scale);
             this->board[j][i].setUnitPtr(nullptr);
-            
+            this->board[j][i].onMainBoard = true;
+            this->board[j][i].setX(j);
+            this->board[j][i].setY(i);
 
             posX = posX + width;
         }
@@ -66,6 +78,7 @@ void Game::initSideBoards()
             this->sideBoardBlue[j][i].setPixelY(posY);
             this->sideBoardBlue[j][i].initShape(scale);
             this->sideBoardBlue[j][i].setUnitPtr(nullptr);
+            this->sideBoardBlue[j][i].onMainBoard = false;
 
             posX = posX + width;
         }
@@ -405,7 +418,20 @@ void Game::pollEvents()
             }
             break;
             //case mouse
-        default:
+        case sf::Event::MouseButtonPressed:
+            this->mouseHeld = true;
+
+            //onclick function here, REMOVE SF:: MOUSE THING
+            this->onClick();
+
+            if (this->mouseHeld) {
+                std::cout << "Mouse clicked" << "\n";
+            }
+            
+            break;
+        case sf::Event::MouseButtonReleased:
+            this->mouseHeld = false;
+            std::cout << "Mouse released" << "\n";
             break;
         }
     }
@@ -428,26 +454,106 @@ void Game::moveUnit(BoardSpace* from, BoardSpace* to) {
     from->setUnitPtr(nullptr);
 }
 
-bool Game::validateMove(BoardSpace* from, BoardSpace* to)
+int Game::validateMove(BoardSpace* from, BoardSpace* to)
 {
-    if (!this->unitIsSelected || to->getUnitPtr() != nullptr) {
-        return false;
+    if (from == to) {
+        return FAIL;
     }
 
     if (from->getX() != to->getX() && from->getY() != to->getY()) {
-        return false;
+        return FAIL;
     }
 
     if (from->getUnitPtr()->getRank() != 2) {
         if (to->getX() == from->getX() - 1 || to->getX() == from->getX() + 1 || to->getY() == from->getY() - 1 || to->getY() == from->getY() + 1) {
-            return true;
+            if (to->getUnitPtr() == nullptr){
+                return MOVE;
+            }
+            return BATTLE;
         }
     }
     else {
-        //PUT LOGIC FOR SCOUTS HERE
+        //scout logic
+        BoardSpace* spaceBeingChecked = nullptr;
+        int xCoordBeingChecked;
+        int yCoordBeingChecked;
+        
+        Game::direction movementDirection;
+
+        if (to->getY() == from->getY()) {
+            if (to->getX() < from->getX()) 
+            {
+                movementDirection = left;
+            }
+            else
+            {
+                movementDirection = right;
+            }
+        }
+        else {
+            if (to->getY() < from->getY())
+            {
+                movementDirection = up;
+            }
+            else
+            {
+                movementDirection = down;
+            }
+        }
+        
+        if (movementDirection == left) {
+            xCoordBeingChecked = from->getX() - 1;
+            yCoordBeingChecked = from->getY();
+        }
+        else if (movementDirection == right)
+        {
+            xCoordBeingChecked = from->getX() + 1;
+            yCoordBeingChecked = from->getY();
+        }
+        else if (movementDirection == up)
+        {
+            xCoordBeingChecked = from->getX();
+            yCoordBeingChecked = from->getY() - 1;
+        }
+        else {
+            xCoordBeingChecked = from->getX();
+            yCoordBeingChecked = from->getY() + 1;
+        }
+
+        do{
+            spaceBeingChecked = &this->board[xCoordBeingChecked][yCoordBeingChecked];
+            if (movementDirection == left)
+            {
+                xCoordBeingChecked--;
+            }
+            else if (movementDirection == right)
+            {
+                xCoordBeingChecked++;
+            }
+            else if (movementDirection == up)
+            {
+                yCoordBeingChecked--;
+            }
+            else if (movementDirection == down) 
+            {
+                yCoordBeingChecked++;
+            }
+
+            if (spaceBeingChecked != to && spaceBeingChecked != nullptr) {
+                return FAIL;
+            }
+
+            if (spaceBeingChecked == to) //CHANGE TO RETURN A DIFFERENT INTEGER DEPENDING ON IF A BATTLE OCCURS
+            {
+                if (to->getUnitPtr() == nullptr) {
+                    return MOVE;
+                }
+                return BATTLE;
+            }
+        } while (spaceBeingChecked->getUnitPtr() == nullptr);
     }
 
-    return false;
+    return FAIL;
 }
 
 
@@ -464,12 +570,18 @@ void Game::clickLogicDuringGame() {
 					this->selectedSpace = &board[i][j];
 				}
 				else if (this->unitIsSelected) {
-					if (validateMove(this->selectedSpace, &board[i][j])) {
+					if (validateMove(this->selectedSpace, &board[i][j]) == MOVE) {
 						moveUnit(this->selectedSpace, &board[i][j]);
 						this->selectedSpace->changeColour(sf::Color::Green);
 						this->selectedSpace = nullptr;
 						this->unitIsSelected = false;
 					}
+                    else if (validateMove(this->selectedSpace, &board[i][j]) == BATTLE) {
+                        battle(this->selectedSpace, &board[i][j]);
+                        this->selectedSpace->changeColour(sf::Color::Green);
+                        this->selectedSpace = nullptr;
+                        this->unitIsSelected = false;
+                    }
 				}
 			}
 		}
@@ -480,20 +592,19 @@ bool Game::validateSetupMove(BoardSpace* to) {//ONLY ON BOTTOM BOARD
     if (to->getUnitPtr() != nullptr) {
         return false;
     }
-    /*
-    for (int i = 0; i < this->mainBoardSize; i++)   
+
+    std::cout << to->getY() << "\n";
+    if (to->getY() < 6 && to->onMainBoard == true) //Needs to check if its on main board
     {
-        if (to->getY() <= 5)
-        {
-            return false;
-        }
-    }*/
+        return false;
+    }
+        
 
     return true;
 }
 
 void Game::clickLogicDuringSetup() {
-	//Check if clicking on main board
+	//Clicking on main board
 	for (int i = 0; i < mainBoardSize; i++) {
 		for (int j = 0; j < mainBoardSize; j++) {
 			if (this->board[i][j].isClicked(&this->mousePosView)) {
@@ -515,7 +626,7 @@ void Game::clickLogicDuringSetup() {
 		}
 	}
 
-	//Check if clicking on side board
+	//Clicking on side board
 	for (int i = 0; i < sideBoardHeight; i++) {
 		for (int j = 0; j < sideBoardWidth; j++) {
 			if (this->sideBoardBlue[j][i].isClicked(&this->mousePosView)) {
@@ -536,9 +647,15 @@ void Game::clickLogicDuringSetup() {
 			}
 		}
 	}
+
+    //Clicking on start button
+    if (this->startButton.getGlobalBounds().contains(this->mousePosView)) {
+
+        //VALIDATE BOARD STATE BEFORE STARTING
+
+        this->setupTime = false;
+    }
 }
-
-
 
 void Game::renderBoard()
 {
@@ -568,24 +685,69 @@ void Game::renderSideBoards()
     }
 }
 
+void Game::renderStartButton()
+{
+    this->window->draw(this->startButton);
+}
+
+
 
 void Game::onClick() {
     //Check if clicking on main board
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        if (this->mouseHeld == false) {
-            this->mouseHeld = true;
+    //if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) { //kolla tid emellan
+        //if (this->mouseHeld == false) {
             if (this->setupTime) {
                 this->clickLogicDuringSetup();
             }
             else {
                 this->clickLogicDuringGame();
             }
-        }
-        else {
-            this->mouseHeld = false;
-        }
+        //}
+    //}
+}
+
+void Game::battle(BoardSpace* attackerSpace, BoardSpace* defenderSpace) {
+    int attackerRank = attackerSpace->getUnitPtr()->getRank();
+    int defenderRank = defenderSpace->getUnitPtr()->getRank();
+
+    //draw
+    if (attackerRank == defenderRank) {
+        attackerSpace->setUnitPtr(nullptr);
+        defenderSpace->setUnitPtr(nullptr);
+    }
+    //spy kills marshal
+    else if (attackerRank == SPY && defenderRank == MARSHAL) {
+        defenderSpace->setUnitPtr(attackerSpace->getUnitPtr());
+        defenderSpace->getUnitPtr()->unitSprite.setPosition(defenderSpace->getShape().getPosition().x, defenderSpace->getShape().getPosition().y);
+        attackerSpace->setUnitPtr(nullptr);
+    }
+    //bomb is defused
+    else if (attackerRank == MINER && defenderRank == BOMB) {
+        defenderSpace->setUnitPtr(attackerSpace->getUnitPtr());
+        defenderSpace->getUnitPtr()->unitSprite.setPosition(defenderSpace->getShape().getPosition().x, defenderSpace->getShape().getPosition().y);
+        attackerSpace->setUnitPtr(nullptr);
+    }
+    //bomb is triggered
+    else if (defenderRank == BOMB) {
+        attackerSpace->setUnitPtr(nullptr);
+    }
+    //flag is captured
+    else if (defenderRank == FLAG) {
+        //WIN THE GAME
+    }
+    //normal attacker win
+    else if (attackerRank > defenderRank) {
+        defenderSpace->setUnitPtr(attackerSpace->getUnitPtr());
+        defenderSpace->getUnitPtr()->unitSprite.setPosition(defenderSpace->getShape().getPosition().x, defenderSpace->getShape().getPosition().y);
+        attackerSpace->setUnitPtr(nullptr);
+    }
+    //normal defender win
+    else {
+        attackerSpace->setUnitPtr(nullptr);
     }
 }
+
+
 
 
 
@@ -593,7 +755,7 @@ void Game::update()
 {
     this->pollEvents();
     this->updateMousePosition();
-    this->onClick();
+    //this->onClick();
 }
 
 void Game::render()
@@ -605,52 +767,15 @@ void Game::render()
     this->window->clear(sf::Color());
 
     //Draw game objects
-    this->renderBoard();
-    this->renderSideBoards();
-    
+    if (this->setupTime){
+        this->renderBoard();
+        this->renderSideBoards();
+        this->renderStartButton();
+    }
+    else {
+        this->renderBoard();
+    }
 
     this->window->display();
 }
 
-
-
-
-/*
-void battle(Unit attacker, Unit defender) {
-    int attackerRank = attacker.getRank();
-    int defenderRank = defender.getRank();
-
-    //draw
-    if (attackerRank == defenderRank) {
-        attacker.die();
-        defender.die();
-    }
-    //spy kills marshal
-    else if (attackerRank == SPY && defenderRank == MARSHAL) {
-        attacker.setLocation(defender.getLocation());
-        defender.die();
-    }
-    //bomb is defused
-    else if (attackerRank == MINER && defenderRank == BOMB) {
-        attacker.setLocation(defender.getLocation());
-        defender.die();
-    }
-    //bomb is triggered
-    else if (defenderRank == BOMB) {
-        attacker.die();
-    }
-    //flag is captured
-    else if (defenderRank == FLAG) {
-        //WIN THE GAME
-    }
-    //normal attacker win
-    else if (attackerRank > defenderRank) {
-        attacker.setLocation(defender.getLocation());
-        defender.die();
-    }
-    //normal defender win
-    else {
-        attacker.die();
-    }
-}
-*/
