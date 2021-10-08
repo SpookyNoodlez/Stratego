@@ -14,6 +14,12 @@
 #include <string>
 #include <fstream>
 #include <istream>
+#include <stdlib.h>
+#include <time.h>
+#include <random>
+#include <chrono>
+#include <algorithm>
+#include <array>
 
 #include "Unit.h"
 #include "BoardSpace.h"
@@ -28,8 +34,6 @@
 #define RIGHT 1
 #define UP 2
 #define DOWN 3
-
-
 
 
 //Class that acts as the game engine
@@ -73,10 +77,12 @@ private:
 	Unit blue_miner_1, blue_miner_2, blue_miner_3, blue_miner_4, blue_miner_5, blue_scout_1, blue_scout_2, blue_scout_3, blue_scout_4, blue_scout_5, blue_scout_6, blue_scout_7, blue_scout_8;
 	Unit blue_spy, blue_bomb_1, blue_bomb_2, blue_bomb_3, blue_bomb_4, blue_bomb_5, blue_bomb_6, blue_flag;
 
-	Unit red_marshall, red_general, red_colonel_1, red_colonel_2, red_major_1, red_major_2, red_major_3, red_captain_1, red_captain_2, red_captain_3, red_captain_4;
+	/*Unit red_marshall, red_general, red_colonel_1, red_colonel_2, red_major_1, red_major_2, red_major_3, red_captain_1, red_captain_2, red_captain_3, red_captain_4;
 	Unit red_lieutenants_1, red_lieutenants_2, red_lieutenants_3, red_lieutenants_4, red_seargeant_1, red_seargeant_2, red_seargeant_3, red_seargeant_4;
 	Unit red_miner_1, red_miner_2, red_miner_3, red_miner_4, red_miner_5, red_scout_1, red_scout_2, red_scout_3, red_scout_4, red_scout_5, red_scout_6, red_scout_7, red_scout_8;
-	Unit red_spy, red_bomb_1, red_bomb_2, red_bomb_3, red_bomb_4, red_bomb_5, red_bomb_6, red_flag;
+	Unit red_spy, red_bomb_1, red_bomb_2, red_bomb_3, red_bomb_4, red_bomb_5, red_bomb_6, red_flag;*/
+	static const int armySize = 40;
+	Unit redUnits[armySize];
 
 	Unit blockades[8];
 
@@ -96,8 +102,10 @@ private:
 	void initWindow();
 	void initBoard();
 	void initSideBoards();
-	void initUnits();
+	void initBlueUnits();
 	void spawnBlockades();
+	void initRedUnits();
+	
 
 	//enum class Direction { left, right, up, down };
 	
@@ -125,8 +133,10 @@ public:
 	void moveUnit(BoardSpace* from, BoardSpace* to);
 	int validateMove(BoardSpace* from, BoardSpace* to);
 	bool validateSetupMove(BoardSpace* to);
+	bool validateBoard();
 	void onClick();
 	void battle(BoardSpace* attackerSpace, BoardSpace* defenderSpace);
+	void randomiseRedPieces();
 };
 
 #endif // !GAME_H

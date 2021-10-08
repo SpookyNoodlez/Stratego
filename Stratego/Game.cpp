@@ -14,7 +14,7 @@ void Game::initVariables() {
     {
         this->blockades[i].setAllegiance(NEUTRAL);
         this->blockades[i].setRank(BLOCKADE);
-        this->blockades[i].initSprite("Textures/boat.png");
+        this->blockades[i].initSprite("Textures/64x64/boat.png");
     }
     this->startButton.setFillColor(sf::Color::White);
     this->startButton.setOutlineColor(sf::Color::Blue);
@@ -83,11 +83,11 @@ void Game::initSideBoards()
         posX = startingX;
     }
 
-    initUnits();//place all units on the side boards
+    initBlueUnits();//place all units on the side boards
 }
 
 //manual assignment of all units to the side board
-void Game::initUnits(){
+void Game::initBlueUnits(){
     /*
     10: 1 Marshall
     9: 1 General
@@ -102,241 +102,241 @@ void Game::initUnits(){
     */
     this->blue_marshall.setRank(MARSHAL); //WORKING HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
     this->blue_marshall.setAllegiance(BLUE);
-    this->blue_marshall.initSprite("Textures/10_blue.png");
+    this->blue_marshall.initSprite("Textures/64x64/10_blue.png");
     this->sideBoardBlue[0][0].setUnitPtr(&blue_marshall); //place on blue side board
     this->sideBoardBlue[0][0].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[0][0].getShape().getPosition().x, this->sideBoardBlue[0][0].getShape().getPosition().y);
 
     this->blue_general.setRank(GENERAL);
     this->blue_general.setAllegiance(BLUE);
-    this->blue_general.initSprite("Textures/9_blue.png");
+    this->blue_general.initSprite("Textures/64x64/9_blue.png");
     this->sideBoardBlue[1][0].setUnitPtr(&blue_general);
     this->sideBoardBlue[1][0].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[1][0].getShape().getPosition().x, this->sideBoardBlue[1][0].getShape().getPosition().y);
 
     this->blue_colonel_1.setRank(COLONEL);
     this->blue_colonel_1.setAllegiance(BLUE);
-    this->blue_colonel_1.initSprite("Textures/8_blue.png");
+    this->blue_colonel_1.initSprite("Textures/64x64/8_blue.png");
     this->sideBoardBlue[2][0].setUnitPtr(&blue_colonel_1);
     this->sideBoardBlue[2][0].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[2][0].getShape().getPosition().x, this->sideBoardBlue[2][0].getShape().getPosition().y);
 
     this->blue_colonel_2.setRank(COLONEL);
     this->blue_colonel_2.setAllegiance(BLUE);
-    this->blue_colonel_2.initSprite("Textures/8_blue.png");
+    this->blue_colonel_2.initSprite("Textures/64x64/8_blue.png");
     this->sideBoardBlue[3][0].setUnitPtr(&blue_colonel_2);
     this->sideBoardBlue[3][0].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[3][0].getShape().getPosition().x, this->sideBoardBlue[3][0].getShape().getPosition().y);
 
     this->blue_major_1.setRank(MAJOR);
     this->blue_major_1.setAllegiance(BLUE);
-    this->blue_major_1.initSprite("Textures/7_blue.png");
+    this->blue_major_1.initSprite("Textures/64x64/7_blue.png");
     this->sideBoardBlue[0][1].setUnitPtr(&blue_major_1);
     this->sideBoardBlue[0][1].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[0][1].getShape().getPosition().x, this->sideBoardBlue[0][1].getShape().getPosition().y);
 
     this->blue_major_2.setRank(MAJOR);
     this->blue_major_2.setAllegiance(BLUE);
-    this->blue_major_2.initSprite("Textures/7_blue.png");
+    this->blue_major_2.initSprite("Textures/64x64/7_blue.png");
     this->sideBoardBlue[1][1].setUnitPtr(&blue_major_2);
     this->sideBoardBlue[1][1].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[1][1].getShape().getPosition().x, this->sideBoardBlue[1][1].getShape().getPosition().y);
 
     this->blue_major_3.setRank(MAJOR);
     this->blue_major_3.setAllegiance(BLUE);
-    this->blue_major_3.initSprite("Textures/7_blue.png");
+    this->blue_major_3.initSprite("Textures/64x64/7_blue.png");
     this->sideBoardBlue[2][1].setUnitPtr(&blue_major_3);
     this->sideBoardBlue[2][1].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[2][1].getShape().getPosition().x, this->sideBoardBlue[2][1].getShape().getPosition().y);
 
     this->blue_captain_1.setRank(CAPTAIN);
     this->blue_captain_1.setAllegiance(BLUE);
-    this->blue_captain_1.initSprite("Textures/6_blue.png");
+    this->blue_captain_1.initSprite("Textures/64x64/6_blue.png");
     this->sideBoardBlue[3][1].setUnitPtr(&blue_captain_1);
     this->sideBoardBlue[3][1].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[3][1].getShape().getPosition().x, this->sideBoardBlue[3][1].getShape().getPosition().y);
 
     this->blue_captain_2.setRank(CAPTAIN);
     this->blue_captain_2.setAllegiance(BLUE);
-    this->blue_captain_2.initSprite("Textures/6_blue.png");
+    this->blue_captain_2.initSprite("Textures/64x64/6_blue.png");
     this->sideBoardBlue[0][2].setUnitPtr(&blue_captain_2);
     this->sideBoardBlue[0][2].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[0][2].getShape().getPosition().x, this->sideBoardBlue[0][2].getShape().getPosition().y);
 
     this->blue_captain_3.setRank(CAPTAIN);
     this->blue_captain_3.setAllegiance(BLUE);
-    this->blue_captain_3.initSprite("Textures/6_blue.png");
+    this->blue_captain_3.initSprite("Textures/64x64/6_blue.png");
     this->sideBoardBlue[1][2].setUnitPtr(&blue_captain_3);
     this->sideBoardBlue[1][2].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[1][2].getShape().getPosition().x, this->sideBoardBlue[1][2].getShape().getPosition().y);
 
     this->blue_captain_4.setRank(CAPTAIN);
     this->blue_captain_4.setAllegiance(BLUE);
-    this->blue_captain_4.initSprite("Textures/6_blue.png");
+    this->blue_captain_4.initSprite("Textures/64x64/6_blue.png");
     this->sideBoardBlue[2][2].setUnitPtr(&blue_captain_4);
     this->sideBoardBlue[2][2].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[2][2].getShape().getPosition().x, this->sideBoardBlue[2][2].getShape().getPosition().y);
 
     this->blue_lieutenant_1.setRank(LIEUTENANT);
     this->blue_lieutenant_1.setAllegiance(BLUE);
-    this->blue_lieutenant_1.initSprite("Textures/5_blue.png");
+    this->blue_lieutenant_1.initSprite("Textures/64x64/5_blue.png");
     this->sideBoardBlue[3][2].setUnitPtr(&blue_lieutenant_1);
     this->sideBoardBlue[3][2].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[3][2].getShape().getPosition().x, this->sideBoardBlue[3][2].getShape().getPosition().y);
 
     this->blue_lieutenant_2.setRank(LIEUTENANT);
     this->blue_lieutenant_2.setAllegiance(BLUE);
-    this->blue_lieutenant_2.initSprite("Textures/5_blue.png");
+    this->blue_lieutenant_2.initSprite("Textures/64x64/5_blue.png");
     this->sideBoardBlue[0][3].setUnitPtr(&blue_lieutenant_2);
     this->sideBoardBlue[0][3].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[0][3].getShape().getPosition().x, this->sideBoardBlue[0][3].getShape().getPosition().y);
 
     this->blue_lieutenant_3.setRank(LIEUTENANT);
     this->blue_lieutenant_3.setAllegiance(BLUE);
-    this->blue_lieutenant_3.initSprite("Textures/5_blue.png");
+    this->blue_lieutenant_3.initSprite("Textures/64x64/5_blue.png");
     this->sideBoardBlue[1][3].setUnitPtr(&blue_lieutenant_3);
     this->sideBoardBlue[1][3].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[1][3].getShape().getPosition().x, this->sideBoardBlue[1][3].getShape().getPosition().y);
 
     this->blue_lieutenant_4.setRank(LIEUTENANT);
     this->blue_lieutenant_4.setAllegiance(BLUE);
-    this->blue_lieutenant_4.initSprite("Textures/5_blue.png");
+    this->blue_lieutenant_4.initSprite("Textures/64x64/5_blue.png");
     this->sideBoardBlue[2][3].setUnitPtr(&blue_lieutenant_4);
     this->sideBoardBlue[2][3].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[2][3].getShape().getPosition().x, this->sideBoardBlue[2][3].getShape().getPosition().y);
 
     this->blue_sergeant_1.setRank(SERGEANT);
     this->blue_sergeant_1.setAllegiance(BLUE);
-    this->blue_sergeant_1.initSprite("Textures/4_blue.png");
+    this->blue_sergeant_1.initSprite("Textures/64x64/4_blue.png");
     this->sideBoardBlue[3][3].setUnitPtr(&blue_sergeant_1);
     this->sideBoardBlue[3][3].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[3][3].getShape().getPosition().x, this->sideBoardBlue[3][3].getShape().getPosition().y);
 
     this->blue_sergeant_2.setRank(SERGEANT);
     this->blue_sergeant_2.setAllegiance(BLUE);
-    this->blue_sergeant_2.initSprite("Textures/4_blue.png");
+    this->blue_sergeant_2.initSprite("Textures/64x64/4_blue.png");
     this->sideBoardBlue[0][4].setUnitPtr(&blue_sergeant_2);
     this->sideBoardBlue[0][4].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[0][4].getShape().getPosition().x, this->sideBoardBlue[0][4].getShape().getPosition().y);
 
     this->blue_sergeant_3.setRank(SERGEANT);
     this->blue_sergeant_3.setAllegiance(BLUE);
-    this->blue_sergeant_3.initSprite("Textures/4_blue.png");
+    this->blue_sergeant_3.initSprite("Textures/64x64/4_blue.png");
     this->sideBoardBlue[1][4].setUnitPtr(&blue_sergeant_3);
     this->sideBoardBlue[1][4].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[1][4].getShape().getPosition().x, this->sideBoardBlue[1][4].getShape().getPosition().y);
 
     this->blue_sergeant_4.setRank(SERGEANT);
     this->blue_sergeant_4.setAllegiance(BLUE);
-    this->blue_sergeant_4.initSprite("Textures/4_blue.png");
+    this->blue_sergeant_4.initSprite("Textures/64x64/4_blue.png");
     this->sideBoardBlue[2][4].setUnitPtr(&blue_sergeant_4);
     this->sideBoardBlue[2][4].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[2][4].getShape().getPosition().x, this->sideBoardBlue[2][4].getShape().getPosition().y);
 
     this->blue_miner_1.setRank(MINER);
     this->blue_miner_1.setAllegiance(BLUE);
-    this->blue_miner_1.initSprite("Textures/3_blue.png");
+    this->blue_miner_1.initSprite("Textures/64x64/3_blue.png");
     this->sideBoardBlue[3][4].setUnitPtr(&blue_miner_1);
     this->sideBoardBlue[3][4].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[3][4].getShape().getPosition().x, this->sideBoardBlue[3][4].getShape().getPosition().y);
     
     this->blue_miner_2.setRank(MINER);
     this->blue_miner_2.setAllegiance(BLUE);
-    this->blue_miner_2.initSprite("Textures/3_blue.png");
+    this->blue_miner_2.initSprite("Textures/64x64/3_blue.png");
     this->sideBoardBlue[0][5].setUnitPtr(&blue_miner_2);
     this->sideBoardBlue[0][5].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[0][5].getShape().getPosition().x, this->sideBoardBlue[0][5].getShape().getPosition().y);
 
     this->blue_miner_3.setRank(MINER);
     this->blue_miner_3.setAllegiance(BLUE);
-    this->blue_miner_3.initSprite("Textures/3_blue.png");
+    this->blue_miner_3.initSprite("Textures/64x64/3_blue.png");
     this->sideBoardBlue[1][5].setUnitPtr(&blue_miner_3);
     this->sideBoardBlue[1][5].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[1][5].getShape().getPosition().x, this->sideBoardBlue[1][5].getShape().getPosition().y);
 
     this->blue_miner_4.setRank(MINER);
     this->blue_miner_4.setAllegiance(BLUE);
-    this->blue_miner_4.initSprite("Textures/3_blue.png");
+    this->blue_miner_4.initSprite("Textures/64x64/3_blue.png");
     this->sideBoardBlue[2][5].setUnitPtr(&blue_miner_4);
     this->sideBoardBlue[2][5].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[2][5].getShape().getPosition().x, this->sideBoardBlue[2][5].getShape().getPosition().y);
 
     this->blue_miner_5.setRank(MINER);
     this->blue_miner_5.setAllegiance(BLUE);
-    this->blue_miner_5.initSprite("Textures/3_blue.png");
+    this->blue_miner_5.initSprite("Textures/64x64/3_blue.png");
     this->sideBoardBlue[3][5].setUnitPtr(&blue_miner_5);
     this->sideBoardBlue[3][5].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[3][5].getShape().getPosition().x, this->sideBoardBlue[3][5].getShape().getPosition().y);
 
     this->blue_scout_1.setRank(SCOUT);
     this->blue_scout_1.setAllegiance(BLUE);
-    this->blue_scout_1.initSprite("Textures/2_blue.png");
+    this->blue_scout_1.initSprite("Textures/64x64/2_blue.png");
     this->sideBoardBlue[0][6].setUnitPtr(&blue_scout_1);
     this->sideBoardBlue[0][6].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[0][6].getShape().getPosition().x, this->sideBoardBlue[0][6].getShape().getPosition().y);
 
     this->blue_scout_2.setRank(SCOUT);
     this->blue_scout_2.setAllegiance(BLUE);
-    this->blue_scout_2.initSprite("Textures/2_blue.png");
+    this->blue_scout_2.initSprite("Textures/64x64/2_blue.png");
     this->sideBoardBlue[1][6].setUnitPtr(&blue_scout_2);
     this->sideBoardBlue[1][6].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[1][6].getShape().getPosition().x, this->sideBoardBlue[1][6].getShape().getPosition().y);
 
     this->blue_scout_3.setRank(SCOUT);
     this->blue_scout_3.setAllegiance(BLUE);
-    this->blue_scout_3.initSprite("Textures/2_blue.png");
+    this->blue_scout_3.initSprite("Textures/64x64/2_blue.png");
     this->sideBoardBlue[2][6].setUnitPtr(&blue_scout_3);
     this->sideBoardBlue[2][6].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[2][6].getShape().getPosition().x, this->sideBoardBlue[2][6].getShape().getPosition().y);
 
     this->blue_scout_4.setRank(SCOUT);
     this->blue_scout_4.setAllegiance(BLUE);
-    this->blue_scout_4.initSprite("Textures/2_blue.png");
+    this->blue_scout_4.initSprite("Textures/64x64/2_blue.png");
     this->sideBoardBlue[3][6].setUnitPtr(&blue_scout_4);
     this->sideBoardBlue[3][6].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[3][6].getShape().getPosition().x, this->sideBoardBlue[3][6].getShape().getPosition().y);
 
     this->blue_scout_5.setRank(SCOUT);
     this->blue_scout_5.setAllegiance(BLUE);
-    this->blue_scout_5.initSprite("Textures/2_blue.png");
+    this->blue_scout_5.initSprite("Textures/64x64/2_blue.png");
     this->sideBoardBlue[0][7].setUnitPtr(&blue_scout_5);
     this->sideBoardBlue[0][7].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[0][7].getShape().getPosition().x, this->sideBoardBlue[0][7].getShape().getPosition().y);
 
     this->blue_scout_6.setRank(SCOUT);
     this->blue_scout_6.setAllegiance(BLUE);
-    this->blue_scout_6.initSprite("Textures/2_blue.png");
+    this->blue_scout_6.initSprite("Textures/64x64/2_blue.png");
     this->sideBoardBlue[1][7].setUnitPtr(&blue_scout_6);
     this->sideBoardBlue[1][7].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[1][7].getShape().getPosition().x, this->sideBoardBlue[1][7].getShape().getPosition().y);
 
     this->blue_scout_7.setRank(SCOUT);
     this->blue_scout_7.setAllegiance(BLUE);
-    this->blue_scout_7.initSprite("Textures/2_blue.png");
+    this->blue_scout_7.initSprite("Textures/64x64/2_blue.png");
     this->sideBoardBlue[2][7].setUnitPtr(&blue_scout_7);
     this->sideBoardBlue[2][7].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[2][7].getShape().getPosition().x, this->sideBoardBlue[2][7].getShape().getPosition().y);
 
     this->blue_scout_8.setRank(SCOUT);
     this->blue_scout_8.setAllegiance(BLUE);
-    this->blue_scout_8.initSprite("Textures/2_blue.png");
+    this->blue_scout_8.initSprite("Textures/64x64/2_blue.png");
     this->sideBoardBlue[3][7].setUnitPtr(&blue_scout_8);
     this->sideBoardBlue[3][7].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[3][7].getShape().getPosition().x, this->sideBoardBlue[3][7].getShape().getPosition().y);
 
     this->blue_spy.setRank(SPY);
     this->blue_spy.setAllegiance(BLUE);
-    this->blue_spy.initSprite("Textures/1_blue.png");
+    this->blue_spy.initSprite("Textures/64x64/1_blue.png");
     this->sideBoardBlue[0][8].setUnitPtr(&blue_spy);
     this->sideBoardBlue[0][8].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[0][8].getShape().getPosition().x, this->sideBoardBlue[0][8].getShape().getPosition().y);
 
     this->blue_bomb_1.setRank(BOMB);
     this->blue_bomb_1.setAllegiance(BLUE);
-    this->blue_bomb_1.initSprite("Textures/bomb_blue.png");
+    this->blue_bomb_1.initSprite("Textures/64x64/bomb_blue.png");
     this->sideBoardBlue[1][8].setUnitPtr(&blue_bomb_1);
     this->sideBoardBlue[1][8].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[1][8].getShape().getPosition().x, this->sideBoardBlue[1][8].getShape().getPosition().y);
 
     this->blue_bomb_2.setRank(BOMB);
     this->blue_bomb_2.setAllegiance(BLUE);
-    this->blue_bomb_2.initSprite("Textures/bomb_blue.png");
+    this->blue_bomb_2.initSprite("Textures/64x64/bomb_blue.png");
     this->sideBoardBlue[2][8].setUnitPtr(&blue_bomb_2);
     this->sideBoardBlue[2][8].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[2][8].getShape().getPosition().x, this->sideBoardBlue[2][8].getShape().getPosition().y);
 
     this->blue_bomb_3.setRank(BOMB);
     this->blue_bomb_3.setAllegiance(BLUE);
-    this->blue_bomb_3.initSprite("Textures/bomb_blue.png");
+    this->blue_bomb_3.initSprite("Textures/64x64/bomb_blue.png");
     this->sideBoardBlue[3][8].setUnitPtr(&blue_bomb_3);
     this->sideBoardBlue[3][8].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[3][8].getShape().getPosition().x, this->sideBoardBlue[3][8].getShape().getPosition().y);
 
     this->blue_bomb_4.setRank(BOMB);
     this->blue_bomb_4.setAllegiance(BLUE);
-    this->blue_bomb_4.initSprite("Textures/bomb_blue.png");
+    this->blue_bomb_4.initSprite("Textures/64x64/bomb_blue.png");
     this->sideBoardBlue[0][9].setUnitPtr(&blue_bomb_4);
     this->sideBoardBlue[0][9].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[0][9].getShape().getPosition().x, this->sideBoardBlue[0][9].getShape().getPosition().y);
 
     this->blue_bomb_5.setRank(BOMB);
     this->blue_bomb_5.setAllegiance(BLUE);
-    this->blue_bomb_5.initSprite("Textures/bomb_blue.png");
+    this->blue_bomb_5.initSprite("Textures/64x64/bomb_blue.png");
     this->sideBoardBlue[1][9].setUnitPtr(&blue_bomb_5);
     this->sideBoardBlue[1][9].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[1][9].getShape().getPosition().x, this->sideBoardBlue[1][9].getShape().getPosition().y);
 
     this->blue_bomb_6.setRank(BOMB);
     this->blue_bomb_6.setAllegiance(BLUE);
-    this->blue_bomb_6.initSprite("Textures/bomb_blue.png");
+    this->blue_bomb_6.initSprite("Textures/64x64/bomb_blue.png");
     this->sideBoardBlue[2][9].setUnitPtr(&blue_bomb_6);
     this->sideBoardBlue[2][9].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[2][9].getShape().getPosition().x, this->sideBoardBlue[2][9].getShape().getPosition().y);
 
     this->blue_flag.setRank(FLAG);
     this->blue_flag.setAllegiance(BLUE);
-    this->blue_flag.initSprite("Textures/flag_blue.png");
+    this->blue_flag.initSprite("Textures/64x64/flag_blue.png");
     this->sideBoardBlue[3][9].setUnitPtr(&blue_flag);
     this->sideBoardBlue[3][9].getUnitPtr()->unitSprite.setPosition(this->sideBoardBlue[3][9].getShape().getPosition().x, this->sideBoardBlue[3][9].getShape().getPosition().y);
 }
@@ -376,6 +376,173 @@ void Game::spawnBlockades()
     this->board[7][5].changeColour(sf::Color::Cyan);
 }
 
+void Game::initRedUnits()
+{
+    /*
+    10: 1 Marshall
+    9: 1 General
+    8: 2 Colonels
+    7: 3 Majors
+    6: 4 Captains
+    5: 4 Lieutenants
+    4: 4 Sergeants
+    3: 5 Miners
+    2: 8 Scouts
+    1: 1 Spy
+    */
+    for (int i = 0; i < this->armySize; i++){
+        this->redUnits[i].setAllegiance(RED);
+    }
+
+    this->redUnits[0].setRank(MARSHAL);
+    this->redUnits[0].initSprite("Textures/64x64/10_red.png");
+
+    this->redUnits[1].setRank(GENERAL);
+    this->redUnits[1].initSprite("Textures/64x64/9_red.png");
+
+    this->redUnits[2].setRank(COLONEL);
+    this->redUnits[2].initSprite("Textures/64x64/8_red.png");
+
+    this->redUnits[3].setRank(COLONEL);
+    this->redUnits[3].initSprite("Textures/64x64/8_red.png");
+
+    this->redUnits[4].setRank(MAJOR);
+    this->redUnits[4].initSprite("Textures/64x64/7_red.png");
+
+    this->redUnits[5].setRank(MAJOR);
+    this->redUnits[5].initSprite("Textures/64x64/7_red.png");
+
+    this->redUnits[6].setRank(MAJOR);
+    this->redUnits[6].initSprite("Textures/64x64/7_red.png");
+
+    this->redUnits[7].setRank(CAPTAIN);
+    this->redUnits[7].initSprite("Textures/64x64/6_red.png");
+
+    this->redUnits[8].setRank(CAPTAIN);
+    this->redUnits[8].initSprite("Textures/64x64/6_red.png");
+
+    this->redUnits[9].setRank(CAPTAIN);
+    this->redUnits[9].initSprite("Textures/64x64/6_red.png");
+
+    this->redUnits[10].setRank(CAPTAIN);
+    this->redUnits[10].initSprite("Textures/64x64/6_red.png");
+
+    this->redUnits[11].setRank(LIEUTENANT);
+    this->redUnits[11].initSprite("Textures/64x64/5_red.png");
+
+    this->redUnits[12].setRank(LIEUTENANT);
+    this->redUnits[12].initSprite("Textures/64x64/5_red.png");
+
+    this->redUnits[13].setRank(LIEUTENANT);
+    this->redUnits[13].initSprite("Textures/64x64/5_red.png");
+
+    this->redUnits[14].setRank(LIEUTENANT);
+    this->redUnits[14].initSprite("Textures/64x64/5_red.png");
+
+    this->redUnits[15].setRank(SERGEANT);
+    this->redUnits[15].initSprite("Textures/64x64/4_red.png");
+
+    this->redUnits[16].setRank(SERGEANT);
+    this->redUnits[16].initSprite("Textures/64x64/4_red.png");
+
+    this->redUnits[17].setRank(SERGEANT);
+    this->redUnits[17].initSprite("Textures/64x64/4_red.png");
+
+    this->redUnits[18].setRank(SERGEANT);
+    this->redUnits[18].initSprite("Textures/64x64/4_red.png");
+
+    this->redUnits[19].setRank(MINER);
+    this->redUnits[19].initSprite("Textures/64x64/3_red.png");
+
+    this->redUnits[20].setRank(MINER);
+    this->redUnits[20].initSprite("Textures/64x64/3_red.png");
+
+    this->redUnits[21].setRank(MINER);
+    this->redUnits[21].initSprite("Textures/64x64/3_red.png");
+
+    this->redUnits[22].setRank(MINER);
+    this->redUnits[22].initSprite("Textures/64x64/3_red.png");
+
+    this->redUnits[23].setRank(MINER);
+    this->redUnits[23].initSprite("Textures/64x64/3_red.png");
+
+    this->redUnits[24].setRank(SCOUT);
+    this->redUnits[24].initSprite("Textures/64x64/2_red.png");
+
+    this->redUnits[25].setRank(SCOUT);
+    this->redUnits[25].initSprite("Textures/64x64/2_red.png");
+
+    this->redUnits[26].setRank(SCOUT);
+    this->redUnits[26].initSprite("Textures/64x64/2_red.png");
+
+    this->redUnits[27].setRank(SCOUT);
+    this->redUnits[27].initSprite("Textures/64x64/2_red.png");
+
+    this->redUnits[28].setRank(SCOUT);
+    this->redUnits[28].initSprite("Textures/64x64/2_red.png");
+
+    this->redUnits[29].setRank(SCOUT);
+    this->redUnits[29].initSprite("Textures/64x64/2_red.png");
+
+    this->redUnits[30].setRank(SCOUT);
+    this->redUnits[30].initSprite("Textures/64x64/2_red.png");
+
+    this->redUnits[31].setRank(SCOUT);
+    this->redUnits[31].initSprite("Textures/64x64/2_red.png");
+
+    this->redUnits[32].setRank(SPY);
+    this->redUnits[32].initSprite("Textures/64x64/1_red.png");
+
+    this->redUnits[33].setRank(BOMB);
+    this->redUnits[33].initSprite("Textures/64x64/bomb_red.png");
+
+    this->redUnits[34].setRank(BOMB);
+    this->redUnits[34].initSprite("Textures/64x64/bomb_red.png");
+
+    this->redUnits[35].setRank(BOMB);
+    this->redUnits[35].initSprite("Textures/64x64/bomb_red.png");
+
+    this->redUnits[36].setRank(BOMB);
+    this->redUnits[36].initSprite("Textures/64x64/bomb_red.png");
+
+    this->redUnits[37].setRank(BOMB);
+    this->redUnits[37].initSprite("Textures/64x64/bomb_red.png");
+
+    this->redUnits[38].setRank(BOMB);
+    this->redUnits[38].initSprite("Textures/64x64/bomb_red.png");
+
+    this->redUnits[39].setRank(FLAG);
+    this->redUnits[39].initSprite("Textures/64x64/flag_red.png");
+}
+
+void Game::randomiseRedPieces()
+{
+    
+    //initialize random seed
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count(); //BRUUUUUUH
+
+    //randomise the placements in the array
+    //std::shuffle(&this->redUnits[0], &this->redUnits[39], std::default_random_engine(seed));
+    
+
+    //shuffle red unit array
+    for (int i = 0; i < 49; i++)
+    {
+
+    }
+
+    int x = 0;
+    for (int i = 0; i < this->mainBoardSize; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            this->board[i][j].setUnitPtr(&this->redUnits[x]);
+            x++;
+        }
+        
+    }
+}
+
 
 
 
@@ -385,7 +552,7 @@ Game::Game(){
     this->initWindow();
     this->initBoard();
     this->initSideBoards();
-    this->initUnits();
+    this->initBlueUnits();
 }
 
 Game::~Game() {
@@ -451,7 +618,7 @@ void Game::moveUnit(BoardSpace* from, BoardSpace* to) {
     from->setUnitPtr(nullptr);
 }
 
-int Game::validateMove(BoardSpace* from, BoardSpace* to)
+int Game::validateMove(BoardSpace* from, BoardSpace* to) //FIX SCOUT LOGIC !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 {
     if (from == to) {
         return FAIL;
@@ -461,15 +628,21 @@ int Game::validateMove(BoardSpace* from, BoardSpace* to)
         return FAIL;
     }
 
-    if (from->getUnitPtr()->getRank() != 2) {
+    if (from->getUnitPtr()->getRank() != SCOUT) {
         if (to->getX() == from->getX() - 1 || to->getX() == from->getX() + 1 || to->getY() == from->getY() - 1 || to->getY() == from->getY() + 1) {
-            if (to->getUnitPtr() == nullptr){
+            //move to open space
+            if (to->getUnitPtr() == nullptr) {
                 return MOVE;
             }
-            return BATTLE;
+            //encounter enemy
+            else if (to->getUnitPtr()->getAllegiance() != from->getUnitPtr()->getAllegiance()) {
+                return BATTLE;
+            }
+            //try to attack ally and fail
+            return FAIL;
         }
     }
-    else {
+    else { //DOES ABSOLUTELY ENTER ELSE STATEMENT IF SCOUT
         //scout logic
         BoardSpace* spaceBeingChecked = nullptr;
         int xCoordBeingChecked;
@@ -520,6 +693,21 @@ int Game::validateMove(BoardSpace* from, BoardSpace* to)
 
         do{
             spaceBeingChecked = &this->board[xCoordBeingChecked][yCoordBeingChecked];
+
+            if (spaceBeingChecked == to)
+            {
+                //move to open space
+                if (to->getUnitPtr() == nullptr) {
+                    return MOVE;
+                }
+                //encounter enemy
+                else if (to->getUnitPtr()->getAllegiance() != from->getUnitPtr()->getAllegiance()) {
+                    return BATTLE;
+                }
+                //try to attack ally and fail
+                return FAIL;
+            }
+
             if (movementDirection == LEFT)
             {
                 xCoordBeingChecked--;
@@ -541,14 +729,8 @@ int Game::validateMove(BoardSpace* from, BoardSpace* to)
                 return FAIL;
             }
 
-            if (spaceBeingChecked == to) //CHANGE TO RETURN A DIFFERENT INTEGER DEPENDING ON IF A BATTLE OCCURS
-            {
-                if (to->getUnitPtr() == nullptr) {
-                    return MOVE;
-                }
-                return BATTLE;
-            }
-        } while (spaceBeingChecked->getUnitPtr() == nullptr);
+            
+        } while (spaceBeingChecked != to);
     }
 
     return FAIL;
@@ -601,6 +783,21 @@ bool Game::validateSetupMove(BoardSpace* to) {//ONLY ON BOTTOM BOARD
     return true;
 }
 
+bool Game::validateBoard()
+{
+    for (int i = 6; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (board[j][i].getUnitPtr() == nullptr) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 void Game::clickLogicDuringSetup() {
 	//Clicking on main board
 	for (int i = 0; i < mainBoardSize; i++) {
@@ -613,7 +810,7 @@ void Game::clickLogicDuringSetup() {
 					this->selectedSpace = &board[i][j];
 				}
 				else if (this->unitIsSelected) {
-					if (validateSetupMove(&board[i][j])) {//new validate function
+					if (validateSetupMove(&board[i][j])) {
 						moveUnit(this->selectedSpace, &board[i][j]);
 						this->selectedSpace->changeColour(sf::Color::Green);
 						this->selectedSpace = nullptr;
@@ -648,12 +845,15 @@ void Game::clickLogicDuringSetup() {
 
     //Clicking on start button
     if (this->startButton.getGlobalBounds().contains(this->mousePosView)) {
-
         //VALIDATE BOARD STATE BEFORE STARTING
-
-        this->setupTime = false;
+        if (validateBoard())
+        {
+            this->setupTime = false;
+        }
     }
 }
+
+
 
 void Game::renderBoard()
 {

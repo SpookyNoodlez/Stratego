@@ -64,6 +64,7 @@ public:
 
     //getters
     int getRank();
+    int getAllegiance();
     //sf::Sprite getUnitSprite();
     //struct ArrayCoords getLocation();
 

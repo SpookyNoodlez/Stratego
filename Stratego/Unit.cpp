@@ -16,7 +16,8 @@ void Unit::initSprite(const char* texturePath)
     this->unitSprite.setTexture(this->unitTexture);
 }
 
-//constructor
+
+//constructors
 Unit::Unit(int allegiance, int rank, char* texturePath)
 {
     this->allegiance = allegiance;
@@ -25,18 +26,24 @@ Unit::Unit(int allegiance, int rank, char* texturePath)
     initSprite(texturePath);
 }
 
+
 Unit::Unit()
 {
     this->allegiance = NEUTRAL;
     //this->rank = DEAD;
 
-    initSprite("Textures/0_blue.png");
+    initSprite("Textures/64x64/0_blue.png");
 }
+
 
 //getters
 int Unit::getRank()
 {
     return this->rank;
+}
+int Unit::getAllegiance()
+{
+    return this->allegiance;
 }
 /*
 sf::Sprite Unit::getUnitSprite()

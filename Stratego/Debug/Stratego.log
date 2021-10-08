@@ -1,4 +1,9 @@
 ﻿  Game.cpp
-  Main.cpp
+E:\OneDrive\Kurser2021\Labb2\Stratego\Stratego\Game.cpp(522,19): warning C4244: 'initializing': conversion from '_Rep' to 'unsigned int', possible loss of data
+          with
+          [
+              _Rep=std::chrono::system_clock::rep
+          ]
+  Unit.cpp
   Generating Code...
   Stratego.vcxproj -> E:\OneDrive\Kurser2021\Labb2\Stratego\Debug\Stratego.exe
