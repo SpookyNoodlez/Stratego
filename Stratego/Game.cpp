@@ -16,12 +16,18 @@ void Game::initVariables() {
         this->blockades[i].setRank(BLOCKADE);
         this->blockades[i].initSprite("Textures/64x64/boat.png");
     }
-    this->startButton.setFillColor(sf::Color::White);
-    this->startButton.setOutlineColor(sf::Color::Blue);
-    this->startButton.setOutlineThickness(2.f);
-    this->startButton.setSize(sf::Vector2f(400.f, 100.f));
-    this->startButton.setScale(sf::Vector2f(0.7f, 0.7f));
-    this->startButton.setPosition(345.f, 777.f);
+    this->startButton.setFillColor(sf::Color::Black);
+    //this->startButton.setOutlineColor(sf::Color::Blue);
+    //this->startButton.setOutlineThickness(2.f);
+    this->startButton.setSize(sf::Vector2f(128.f, 128.f));
+    //this->startButton.setScale(sf::Vector2f(0.7f, 0.7f));
+    this->startButton.setPosition(380.f, 777.f);
+
+    if (!this->startTexture.loadFromFile("Textures/start.png")) {
+        std::cout << "Could not load unit texture";
+    }
+    this->startSprite.setTexture(this->startTexture);
+    this->startSprite.setPosition(380.f, 777.f);
 }
 
 void Game::initWindow() {
@@ -83,7 +89,10 @@ void Game::initSideBoards()
         posX = startingX;
     }
 
-    initBlueUnits();//place all units on the side boards
+    //place all units on the side boards
+    initBlueUnits();
+    initRedUnits();
+    randomiseRedPieces();
 }
 
 //manual assignment of all units to the side board
@@ -517,19 +526,14 @@ void Game::initRedUnits()
 
 void Game::randomiseRedPieces()
 {
-    
     //initialize random seed
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count(); //BRUUUUUUH
 
+    //std::linear_congruential_engine engine;
+
     //randomise the placements in the array
-    //std::shuffle(&this->redUnits[0], &this->redUnits[39], std::default_random_engine(seed));
+    std::shuffle(&this->redUnits[0], &this->redUnits[39], std::default_random_engine(seed));
     
-
-    //shuffle red unit array
-    for (int i = 0; i < 49; i++)
-    {
-
-    }
 
     int x = 0;
     for (int i = 0; i < this->mainBoardSize; i++)
@@ -537,6 +541,7 @@ void Game::randomiseRedPieces()
         for (int j = 0; j < 4; j++)
         {
             this->board[i][j].setUnitPtr(&this->redUnits[x]);
+            this->board[i][j].getUnitPtr()->unitSprite.setPosition(this->board[i][j].getShape().getPosition().x, board[i][j].getShape().getPosition().y);
             x++;
         }
         
@@ -886,6 +891,7 @@ void Game::renderSideBoards()
 void Game::renderStartButton()
 {
     this->window->draw(this->startButton);
+    this->window->draw(this->startSprite);
 }
 
 
@@ -904,7 +910,7 @@ void Game::onClick() {
     //}
 }
 
-void Game::battle(BoardSpace* attackerSpace, BoardSpace* defenderSpace) {
+void Game::battle(BoardSpace* attackerSpace, BoardSpace* defenderSpace) { //BATTLE BROKEN
     int attackerRank = attackerSpace->getUnitPtr()->getRank();
     int defenderRank = defenderSpace->getUnitPtr()->getRank();
 

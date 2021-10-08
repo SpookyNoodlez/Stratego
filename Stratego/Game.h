@@ -57,7 +57,6 @@ private:
 	BoardSpace sideBoardBlue[sideBoardWidth][sideBoardHeight];
 	BoardSpace sideBoardRed[sideBoardWidth][sideBoardHeight];
 
-	sf::RectangleShape startButton;
 
 	//All units in the game, manually initialised in initUnits()
 	/*
@@ -86,9 +85,10 @@ private:
 
 	Unit blockades[8];
 
-	//Texture stuff
-	sf::Texture backgroundTexture;
-	sf::Sprite backgroundSprite;
+	//Start button
+	sf::RectangleShape startButton;
+	sf::Texture startTexture;
+	sf::Sprite startSprite;
 
 	//Game logic
 	BoardSpace* selectedSpace;

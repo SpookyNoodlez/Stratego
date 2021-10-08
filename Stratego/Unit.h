@@ -31,12 +31,6 @@
 #define FLAG 12
 
 
-struct ArrayCoords {
-    int x;
-    int y;
-};
-
-
 class Unit {
 private:
     int allegiance;
@@ -50,9 +44,6 @@ private:
     
 
 public:
-    //public graveyard space
-    const struct ArrayCoords graveYard = { -1,-1 };
-
     //public variables
     sf::Sprite unitSprite;
 
