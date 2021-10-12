@@ -74,8 +74,8 @@ void Game::initBoard()
         posY = posY + width;
         posX = startingX;
     }
-
-    this->spawnBlockades(); //place the water in the middle
+    //place the water in the middle
+    this->spawnBlockades();
 }
 
 void Game::initSideBoards()
@@ -545,7 +545,7 @@ void Game::randomiseRedPieces() //RANKS DO NOT MATCH TEXTURES AFTER RANDOMISATIO
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 
     //randomise the placements in the array
-    std::shuffle(&this->redUnits[0], &this->redUnits[40], std::default_random_engine(seed));
+    //std::shuffle(&this->redUnits[0], &this->redUnits[40], std::default_random_engine(seed));
     
 
     int x = 0;
@@ -606,13 +606,13 @@ void Game::pollEvents()
             this->onClick();
 
             if (this->mouseHeld) {
-                std::cout << "Mouse clicked" << "\n";
+                //std::cout << "Mouse clicked" << "\n";
             }
             
             break;
         case sf::Event::MouseButtonReleased:
             this->mouseHeld = false;
-            std::cout << "Mouse released" << "\n";
+            //std::cout << "Mouse released" << "\n";
             break;
         }
     }
@@ -734,7 +734,7 @@ int Game::validateMove(BoardSpace* from, BoardSpace* to)
 
             spaceBeingChecked = &this->board[xCoordBeingChecked][yCoordBeingChecked];
 
-            if (spaceBeingChecked->getUnitPtr() != nullptr) { //if hitting a unit before arriving at selected space, fail
+            if (spaceBeingChecked->getUnitPtr() != nullptr && spaceBeingChecked != to) { //if hitting a unit before arriving at selected space, fail
                 return FAIL;
             }
         }
@@ -911,17 +911,12 @@ void Game::renderWinScreen()
 }
 
 void Game::onClick() {
-    //Check if clicking on main board
-    //if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) { //kolla tid emellan
-        //if (this->mouseHeld == false) {
-            if (this->setupTime) {
-                this->clickLogicDuringSetup();
-            }
-            else {
-                this->clickLogicDuringGame();
-            }
-        //}
-    //}
+	if (this->setupTime) {
+		this->clickLogicDuringSetup();
+	}
+	else {
+		this->clickLogicDuringGame();
+	}
 }
 
 void Game::battle(BoardSpace* attackerSpace, BoardSpace* defenderSpace) {
@@ -953,7 +948,7 @@ void Game::battle(BoardSpace* attackerSpace, BoardSpace* defenderSpace) {
     }
     //flag is captured
     else if (defenderRank == FLAG) {
-        //WIN THE GAME
+        this->winner = attackerSpace->getUnitPtr()->getAllegiance();
     }
     //normal attacker win
     else if (attackerRank > defenderRank) {
