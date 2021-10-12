@@ -3,10 +3,6 @@
 #include "string"
 
 
-void Unit::initVariables()
-{
-}
-
 void Unit::initSprite(const char* texturePath)
 {
     if (!this->unitTexture.loadFromFile(texturePath)) {
@@ -14,6 +10,12 @@ void Unit::initSprite(const char* texturePath)
     }
     
     this->unitSprite.setTexture(this->unitTexture);
+
+    if (!this->hiddenTexture.loadFromFile("Textures/64x64/square_red.png")) {
+        std::cout << "Could not load unit texture";
+    }
+
+    this->hidden = false;
 }
 
 
@@ -61,6 +63,17 @@ void Unit::setRank(int rank)
 
 void Unit::setAllegiance(int allegiance) {
     this->allegiance = allegiance;
+}
+
+void Unit::hideUnit() {
+    if (this->hidden){
+        this->unitSprite.setTexture(this->unitTexture);
+        this->hidden = false;
+    }
+    else {
+        this->unitSprite.setTexture(this->hiddenTexture);
+        this->hidden = true;
+    }
 }
 
 

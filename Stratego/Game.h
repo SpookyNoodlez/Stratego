@@ -90,6 +90,11 @@ private:
 	sf::Texture startTexture;
 	sf::Sprite startSprite;
 
+	//Cheat button
+	sf::RectangleShape cheatButton;
+	sf::Texture cheatTexture;
+	sf::Sprite cheatSprite;
+
 	//Win screens
 	sf::Texture blueWinTexture;
 	sf::Sprite blueWinSprite;
@@ -138,6 +143,7 @@ public:
 	void renderSideBoards();
 	void renderStartButton();
 	void renderWinScreen();
+	void renderCheatButton();
 	//void renderUnit(int y, int x);
 	void moveUnit(BoardSpace* from, BoardSpace* to);
 	int validateMove(BoardSpace* from, BoardSpace* to);

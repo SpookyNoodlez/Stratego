@@ -35,18 +35,15 @@ class Unit {
 private:
     int allegiance;
     int rank;
+    bool hidden;
 
     sf::Texture unitTexture;
-    
-
-    //private functions
-    void initVariables();
-    
-
+    sf::Texture hiddenTexture;
+    sf::Texture highResTexture;
 public:
     //public variables
     sf::Sprite unitSprite;
-
+    sf::Sprite highResSprite;
 
     //constructor
     Unit(int allegiance, int rank, char* texturePath);
@@ -64,6 +61,7 @@ public:
     void setAllegiance(int allegiance);
     //void setLocation(struct ArrayCoords newLocation);
     void initSprite(const char* texturePath);
+    void hideUnit();
 
     //other
     void die();

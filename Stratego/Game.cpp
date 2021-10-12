@@ -23,12 +23,24 @@ void Game::initVariables() {
     this->startButton.setSize(sf::Vector2f(128.f, 128.f));
     //this->startButton.setScale(sf::Vector2f(0.7f, 0.7f));
     this->startButton.setPosition(380.f, 777.f);
-
     if (!this->startTexture.loadFromFile("Textures/start.png")) {
         std::cout << "Could not load unit texture";
     }
     this->startSprite.setTexture(this->startTexture);
     this->startSprite.setPosition(380.f, 777.f);
+
+
+    this->cheatButton.setFillColor(sf::Color::Black);
+    /*this->startButton.setOutlineColor(sf::Color::Blue);
+    this->startButton.setOutlineThickness(2.f);*/
+    this->cheatButton.setSize(sf::Vector2f(64.f, 64.f));
+    //this->startButton.setScale(sf::Vector2f(0.7f, 0.7f));
+    this->cheatButton.setPosition(900.f, 450.f);
+    if (!this->cheatTexture.loadFromFile("Textures/64x64/clover.png")) {
+        std::cout << "Could not load unit texture";
+    }
+    this->cheatSprite.setTexture(this->cheatTexture);
+    this->cheatSprite.setPosition(900.f, 450.f);
 
     if (!this->blueWinTexture.loadFromFile("Textures/win_blue.png")) {
         std::cout << "Could not load unit texture";
@@ -546,8 +558,11 @@ void Game::randomiseRedPieces() //RANKS DO NOT MATCH TEXTURES AFTER RANDOMISATIO
 
     //randomise the placements in the array
     //std::shuffle(&this->redUnits[0], &this->redUnits[40], std::default_random_engine(seed));
-    
 
+
+    
+    
+    //place red units on their side
     int x = 0;
     for (int i = 0; i < this->mainBoardSize; i++)
     {
@@ -556,6 +571,17 @@ void Game::randomiseRedPieces() //RANKS DO NOT MATCH TEXTURES AFTER RANDOMISATIO
             this->board[i][j].setUnitPtr(&this->redUnits[x]);
             this->board[i][j].getUnitPtr()->unitSprite.setPosition(this->board[i][j].getShape().getPosition().x, board[i][j].getShape().getPosition().y);
             x++;
+        }
+    }
+
+    //hide red units
+    for (int i = 0; i < mainBoardSize; i++) {
+        for (int j = 0; j < mainBoardSize; j++) {
+            if (board[i][j].getUnitPtr() != nullptr) {
+                if (board[i][j].getUnitPtr()->getAllegiance() == RED) {
+                    board[i][j].getUnitPtr()->hideUnit();
+                }
+            }
         }
     }
 }
@@ -774,6 +800,19 @@ void Game::clickLogicDuringGame() {
 			}
 		}
 	}
+
+    //Clicking on cheat button
+    if (this->cheatButton.getGlobalBounds().contains(this->mousePosView)) {
+        for (int i = 0; i < mainBoardSize; i++) {
+            for (int j = 0; j < mainBoardSize; j++) {
+                if (board[i][j].getUnitPtr() != nullptr) {
+                    if (board[i][j].getUnitPtr()->getAllegiance() == RED) {
+                        board[i][j].getUnitPtr()->hideUnit();
+                    }
+                }
+            }
+        }
+    }
 }
 
 bool Game::validateSetupMove(BoardSpace* to) {//ONLY ON BOTTOM BOARD
@@ -860,6 +899,19 @@ void Game::clickLogicDuringSetup() {
             this->setupTime = false;
         }
     }
+
+    //Clicking on cheat button
+    if (this->cheatButton.getGlobalBounds().contains(this->mousePosView)) {
+        for (int i = 0; i < mainBoardSize; i++) {
+            for (int j = 0; j < mainBoardSize; j++) {
+                if (board[i][j].getUnitPtr() != nullptr){
+                    if (board[i][j].getUnitPtr()->getAllegiance() == RED) {
+                        board[i][j].getUnitPtr()->hideUnit();
+                    }
+                }
+            }
+        }
+    }
 }
 
 
@@ -896,6 +948,12 @@ void Game::renderStartButton()
 {
     this->window->draw(this->startButton);
     this->window->draw(this->startSprite);
+}
+
+void Game::renderCheatButton()
+{
+    this->window->draw(this->cheatButton);
+    this->window->draw(this->cheatSprite);
 }
 
 void Game::renderWinScreen()
@@ -990,9 +1048,11 @@ void Game::render()
         this->renderBoard();
         this->renderSideBoards();
         this->renderStartButton();
+        this->renderCheatButton();
     }
     else {
         this->renderBoard();
+        this->renderCheatButton();
     }
 
     this->window->display();
