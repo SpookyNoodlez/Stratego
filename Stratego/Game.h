@@ -90,11 +90,19 @@ private:
 	sf::Texture startTexture;
 	sf::Sprite startSprite;
 
+	//Win screens
+	sf::Texture blueWinTexture;
+	sf::Sprite blueWinSprite;
+
+	sf::Texture redWinTexture;
+	sf::Sprite redWinSprite;
+
 	//Game logic
 	BoardSpace* selectedSpace;
 	bool unitIsSelected;
 	bool setupTime;
 	bool mouseHeld;
+	int winner;
 	
 
 	//private functions
@@ -129,6 +137,7 @@ public:
 	void renderBoard();
 	void renderSideBoards();
 	void renderStartButton();
+	void renderWinScreen();
 	//void renderUnit(int y, int x);
 	void moveUnit(BoardSpace* from, BoardSpace* to);
 	int validateMove(BoardSpace* from, BoardSpace* to);

@@ -10,6 +10,7 @@ void Game::initVariables() {
     this->selectedSpace = nullptr;
     this->setupTime = true;
     this->mouseHeld = false;
+    this->winner = NEUTRAL;
     for (int i = 0; i < 8; i++)
     {
         this->blockades[i].setAllegiance(NEUTRAL);
@@ -28,6 +29,18 @@ void Game::initVariables() {
     }
     this->startSprite.setTexture(this->startTexture);
     this->startSprite.setPosition(380.f, 777.f);
+
+    if (!this->blueWinTexture.loadFromFile("Textures/win_blue.png")) {
+        std::cout << "Could not load unit texture";
+    }
+    this->blueWinSprite.setTexture(this->blueWinTexture);
+    this->blueWinSprite.setPosition(380.f, 100.f);
+
+    if (!this->redWinTexture.loadFromFile("Textures/win_blue.png")) {
+        std::cout << "Could not load unit texture";
+    }
+    this->redWinSprite.setTexture(this->redWinTexture);
+    this->redWinSprite.setPosition(380.f, 100.f);
 }
 
 void Game::initWindow() {
@@ -89,8 +102,10 @@ void Game::initSideBoards()
         posX = startingX;
     }
 
-    //place all units on the side boards
+    //place all blue units on the side boards
     initBlueUnits();
+
+    //place all red units on the main board
     initRedUnits();
     randomiseRedPieces();
 }
@@ -524,15 +539,13 @@ void Game::initRedUnits()
     this->redUnits[39].initSprite("Textures/64x64/flag_red.png");
 }
 
-void Game::randomiseRedPieces()
+void Game::randomiseRedPieces() //RANKS DO NOT MATCH TEXTURES AFTER RANDOMISATION BUT DO BEFORE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 {
     //initialize random seed
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count(); //BRUUUUUUH
-
-    //std::linear_congruential_engine engine;
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 
     //randomise the placements in the array
-    std::shuffle(&this->redUnits[0], &this->redUnits[39], std::default_random_engine(seed));
+    std::shuffle(&this->redUnits[0], &this->redUnits[40], std::default_random_engine(seed));
     
 
     int x = 0;
@@ -544,7 +557,6 @@ void Game::randomiseRedPieces()
             this->board[i][j].getUnitPtr()->unitSprite.setPosition(this->board[i][j].getShape().getPosition().x, board[i][j].getShape().getPosition().y);
             x++;
         }
-        
     }
 }
 
@@ -623,7 +635,7 @@ void Game::moveUnit(BoardSpace* from, BoardSpace* to) {
     from->setUnitPtr(nullptr);
 }
 
-int Game::validateMove(BoardSpace* from, BoardSpace* to) //FIX SCOUT LOGIC !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+int Game::validateMove(BoardSpace* from, BoardSpace* to)
 {
     if (from == to) {
         return FAIL;
@@ -647,7 +659,7 @@ int Game::validateMove(BoardSpace* from, BoardSpace* to) //FIX SCOUT LOGIC !!!!!
             return FAIL;
         }
     }
-    else { //DOES ABSOLUTELY ENTER ELSE STATEMENT IF SCOUT
+    else {
         //scout logic
         BoardSpace* spaceBeingChecked = nullptr;
         int xCoordBeingChecked;
@@ -660,45 +672,35 @@ int Game::validateMove(BoardSpace* from, BoardSpace* to) //FIX SCOUT LOGIC !!!!!
             if (to->getX() < from->getX()) 
             {
                 movementDirection = LEFT;
+                xCoordBeingChecked = from->getX() - 1;
+                yCoordBeingChecked = from->getY();
             }
             else
             {
                 movementDirection = RIGHT;
+                xCoordBeingChecked = from->getX() + 1;
+                yCoordBeingChecked = from->getY();
             }
         }
         else {
             if (to->getY() < from->getY())
             {
                 movementDirection = UP;
+                xCoordBeingChecked = from->getX();
+                yCoordBeingChecked = from->getY() - 1;
             }
             else
             {
                 movementDirection = DOWN;
+                xCoordBeingChecked = from->getX();
+                yCoordBeingChecked = from->getY() + 1;
             }
         }
         
-        if (movementDirection == LEFT) {
-            xCoordBeingChecked = from->getX() - 1;
-            yCoordBeingChecked = from->getY();
-        }
-        else if (movementDirection == RIGHT)
-        {
-            xCoordBeingChecked = from->getX() + 1;
-            yCoordBeingChecked = from->getY();
-        }
-        else if (movementDirection == UP)
-        {
-            xCoordBeingChecked = from->getX();
-            yCoordBeingChecked = from->getY() - 1;
-        }
-        else if (movementDirection == DOWN) {
-            xCoordBeingChecked = from->getX();
-            yCoordBeingChecked = from->getY() + 1;
-        }
 
-        do{
-            spaceBeingChecked = &this->board[xCoordBeingChecked][yCoordBeingChecked];
+        spaceBeingChecked = &this->board[xCoordBeingChecked][yCoordBeingChecked];
 
+        while (true) {
             if (spaceBeingChecked == to)
             {
                 //move to open space
@@ -730,12 +732,12 @@ int Game::validateMove(BoardSpace* from, BoardSpace* to) //FIX SCOUT LOGIC !!!!!
                 yCoordBeingChecked++;
             }
 
-            if (spaceBeingChecked != to && spaceBeingChecked != nullptr) {
+            spaceBeingChecked = &this->board[xCoordBeingChecked][yCoordBeingChecked];
+
+            if (spaceBeingChecked->getUnitPtr() != nullptr) { //if hitting a unit before arriving at selected space, fail
                 return FAIL;
             }
-
-            
-        } while (spaceBeingChecked != to);
+        }
     }
 
     return FAIL;
@@ -749,7 +751,8 @@ void Game::clickLogicDuringGame() {
 		for (int j = 0; j < mainBoardSize; j++) {
 			if (this->board[i][j].isClicked(&this->mousePosView)) {
 				//if there is a unit that is not a bomb or flag and other unit not selected yet, store the space
-				if (!this->unitIsSelected && this->board[i][j].getUnitPtr() != nullptr && this->board[i][j].getUnitPtr()->getRank() != BOMB && this->board[i][j].getUnitPtr()->getRank() != FLAG && this->board[i][j].getUnitPtr()->getRank() != BLOCKADE) {
+				if (!this->unitIsSelected && this->board[i][j].getUnitPtr() != nullptr && this->board[i][j].getUnitPtr()->getRank() != BOMB 
+                    && this->board[i][j].getUnitPtr()->getRank() != FLAG && this->board[i][j].getUnitPtr()->getRank() != BLOCKADE && this->board[i][j].getUnitPtr()->getAllegiance() == BLUE) {
 					this->unitIsSelected = true;
 					this->board[i][j].changeColour(sf::Color::Red);
 					this->selectedSpace = &board[i][j];
@@ -790,7 +793,8 @@ bool Game::validateSetupMove(BoardSpace* to) {//ONLY ON BOTTOM BOARD
 
 bool Game::validateBoard()
 {
-    for (int i = 6; i < 10; i++)
+    //DEBUGGING REENABLE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    /*for (int i = 6; i < 10; i++)
     {
         for (int j = 0; j < 10; j++)
         {
@@ -798,7 +802,7 @@ bool Game::validateBoard()
                 return false;
             }
         }
-    }
+    }*/
 
     return true;
 }
@@ -809,7 +813,7 @@ void Game::clickLogicDuringSetup() {
 		for (int j = 0; j < mainBoardSize; j++) {
 			if (this->board[i][j].isClicked(&this->mousePosView)) {
 
-				if (!this->unitIsSelected && this->board[i][j].getUnitPtr() != nullptr && this->board[i][j].getUnitPtr()->getRank() != BLOCKADE) {
+				if (!this->unitIsSelected && this->board[i][j].getUnitPtr() != nullptr && this->board[i][j].getUnitPtr()->getRank() != BLOCKADE && this->board[i][j].getUnitPtr()->getAllegiance() == BLUE) {
 					this->unitIsSelected = true;
 					this->board[i][j].changeColour(sf::Color::Red);
 					this->selectedSpace = &board[i][j];
@@ -894,7 +898,17 @@ void Game::renderStartButton()
     this->window->draw(this->startSprite);
 }
 
-
+void Game::renderWinScreen()
+{
+    if (winner == BLUE)
+    {
+        this->window->draw(this->blueWinSprite);
+    }
+    else if (winner == RED)
+    {
+        this->window->draw(this->redWinSprite);
+    }
+}
 
 void Game::onClick() {
     //Check if clicking on main board
@@ -910,9 +924,11 @@ void Game::onClick() {
     //}
 }
 
-void Game::battle(BoardSpace* attackerSpace, BoardSpace* defenderSpace) { //BATTLE BROKEN
+void Game::battle(BoardSpace* attackerSpace, BoardSpace* defenderSpace) {
     int attackerRank = attackerSpace->getUnitPtr()->getRank();
     int defenderRank = defenderSpace->getUnitPtr()->getRank();
+    std::cout << "attacker: " << attackerSpace->getUnitPtr()->getRank() << "\n";
+    std::cout << "defender: " << defenderSpace->getUnitPtr()->getRank() << "\n";
 
     //draw
     if (attackerRank == defenderRank) {
@@ -953,8 +969,6 @@ void Game::battle(BoardSpace* attackerSpace, BoardSpace* defenderSpace) { //BATT
 
 
 
-
-
 void Game::update()
 {
     this->pollEvents();
@@ -970,8 +984,14 @@ void Game::render()
     
     this->window->clear(sf::Color());
 
+
+
     //Draw game objects
-    if (this->setupTime){
+    if (this->winner != NEUTRAL)
+    {
+        renderWinScreen();
+    }
+    else if (this->setupTime){
         this->renderBoard();
         this->renderSideBoards();
         this->renderStartButton();
