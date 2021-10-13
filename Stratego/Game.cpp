@@ -557,7 +557,7 @@ void Game::randomiseRedPieces() //RANKS DO NOT MATCH TEXTURES AFTER RANDOMISATIO
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 
     //randomise the placements in the array
-    //std::shuffle(&this->redUnits[0], &this->redUnits[40], std::default_random_engine(seed));
+    std::shuffle(&this->redUnits[0], &this->redUnits[40], std::default_random_engine(seed));
 
 
     
