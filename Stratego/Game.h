@@ -20,6 +20,9 @@
 #include <chrono>
 #include <algorithm>
 #include <array>
+#include <ctime>
+#include <cstdlib>
+#include <windows.h>
 
 #include "Unit.h"
 #include "BoardSpace.h"
@@ -152,6 +155,7 @@ public:
 	void onClick();
 	void battle(BoardSpace* attackerSpace, BoardSpace* defenderSpace);
 	void randomiseRedPieces();
+	void AImove();
 };
 
 #endif // !GAME_H

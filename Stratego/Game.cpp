@@ -791,11 +791,17 @@ void Game::clickLogicDuringGame() {
 						this->unitIsSelected = false;
 					}
                     else if (validateMove(this->selectedSpace, &board[i][j]) == BATTLE) {
+                        if (board[i][j].getUnitPtr()->getAllegiance() == RED) {
+                            board[i][j].getUnitPtr()->hideUnit();
+                        }
                         battle(this->selectedSpace, &board[i][j]);
                         this->selectedSpace->changeColour(sf::Color::Green);
                         this->selectedSpace = nullptr;
                         this->unitIsSelected = false;
                     }
+
+                    //Enemy move after player move !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    //AImove();
 				}
 			}
 		}
@@ -983,6 +989,25 @@ void Game::battle(BoardSpace* attackerSpace, BoardSpace* defenderSpace) {
     std::cout << "attacker: " << attackerSpace->getUnitPtr()->getRank() << "\n";
     std::cout << "defender: " << defenderSpace->getUnitPtr()->getRank() << "\n";
 
+    //show enemy
+    if (defenderSpace->getUnitPtr()->getAllegiance() == RED)
+    {
+        defenderSpace->getUnitPtr()->hideUnit();
+        defenderSpace->getUnitPtr()->hideUnit();
+        render();
+        Sleep(2000);
+        defenderSpace->getUnitPtr()->hideUnit();
+    }
+    if (attackerSpace->getUnitPtr()->getAllegiance() == RED)
+    {
+        attackerSpace->getUnitPtr()->hideUnit();
+        attackerSpace->getUnitPtr()->hideUnit();
+        render();
+        Sleep(2000);
+        attackerSpace->getUnitPtr()->hideUnit();
+    }
+    
+
     //draw
     if (attackerRank == defenderRank) {
         attackerSpace->setUnitPtr(nullptr);
@@ -1020,6 +1045,141 @@ void Game::battle(BoardSpace* attackerSpace, BoardSpace* defenderSpace) {
     }
 }
 
+void Game::AImove() {
+    srand(time(NULL));
+
+	bool valid = false;
+	BoardSpace* from = nullptr;
+	BoardSpace* to = nullptr;
+	int fromi;
+	int fromj;
+	while (!valid) {
+		int randIndex = rand() % armySize - 1;
+		Unit* unitToMove = &redUnits[randIndex];
+		//don't allow flags and bombs to be moved
+		if (unitToMove->getRank() == FLAG || unitToMove->getRank() == BOMB)
+		{
+			continue;
+		}
+
+		//find the random unit on the board
+		for (int i = 0; i < mainBoardSize; i++) {
+			for (int j = 0; j < mainBoardSize; j++) {
+				if (unitToMove == this->board[i][j].getUnitPtr())
+				{
+					from = &this->board[i][j];
+					fromi = i;
+					fromj = j;
+					continue;
+				}
+			}
+		}
+
+
+		//check if there is a space to move to or an enemy to attack next to the unit
+		if (fromi != 0)
+		{
+			if (this->board[fromi - 1][fromj].getUnitPtr() == nullptr) {
+				valid = true;
+			}
+			else if (this->board[fromi - 1][fromj].getUnitPtr()->getAllegiance() == BLUE) {
+				valid = true;
+			}
+		}
+		if (fromi != 9)
+		{
+			if (this->board[fromi + 1][fromj].getUnitPtr() == nullptr) {
+				valid = true;
+			}
+			else if (this->board[fromi + 1][fromj].getUnitPtr()->getAllegiance() == BLUE) {
+				valid = true;
+			}
+		}
+		if (fromj != 0)
+		{
+			if (this->board[fromi][fromj - 1].getUnitPtr() == nullptr) {
+				valid = true;
+			}
+			else if (this->board[fromi][fromj - 1].getUnitPtr()->getAllegiance() == BLUE) {
+				valid = true;
+			}
+		}
+		if (fromj != 9)
+		{
+			if (this->board[fromi][fromj + 1].getUnitPtr() == nullptr) {
+				valid = true;
+			}
+			else if (this->board[fromi][fromj + 1].getUnitPtr()->getAllegiance() == BLUE) {
+				valid = true;
+			}
+		}
+	}
+
+
+
+
+
+	//choose random open direction
+	valid = false;
+	while (!valid)
+	{
+		int randDirection = rand() % 3;
+
+		if (randDirection == 0)
+		{
+			if (fromi != 0)
+			{
+				if (this->board[fromi - 1][fromj].getUnitPtr() == nullptr) {
+					valid = true;
+				}
+				else if (this->board[fromi - 1][fromj].getUnitPtr()->getAllegiance() == BLUE) {
+					valid = true;
+				}
+			}
+		}
+		else if (randDirection == 1) {
+			if (fromi != 9)
+			{
+				if (this->board[fromi + 1][fromj].getUnitPtr() == nullptr) {
+					valid = true;
+				}
+				else if (this->board[fromi + 1][fromj].getUnitPtr()->getAllegiance() == BLUE) {
+					valid = true;
+				}
+			}
+		}
+		else if (randDirection == 2) {
+			if (fromj != 0)
+			{
+				if (this->board[fromi][fromj - 1].getUnitPtr() == nullptr) {
+					valid = true;
+				}
+				else if (this->board[fromi][fromj - 1].getUnitPtr()->getAllegiance() == BLUE) {
+					valid = true;
+				}
+			}
+		}
+		else {
+			if (fromj != 9)
+			{
+				if (this->board[fromi][fromj + 1].getUnitPtr() == nullptr) {
+					valid = true;
+				}
+				else if (this->board[fromi][fromj + 1].getUnitPtr()->getAllegiance() == BLUE) {
+					valid = true;
+				}
+			}
+		}
+	}
+
+
+	if (validateMove(from, to) == MOVE) {
+		moveUnit(from, to);
+	}
+	else if (validateMove(from, to) == BATTLE) {
+		battle(from, to);
+	}
+}
 
 
 void Game::update()

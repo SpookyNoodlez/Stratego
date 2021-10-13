@@ -1,4 +1,4 @@
-#pragma once
+//#pragma once
 
 #ifndef UNIT_H
 #define UNIT_H
@@ -41,6 +41,9 @@ private:
     sf::Texture hiddenTexture;
     sf::Texture highResTexture;
 public:
+    
+
+
     //public variables
     sf::Sprite unitSprite;
     sf::Sprite highResSprite;
