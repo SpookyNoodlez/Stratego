@@ -560,8 +560,6 @@ void Game::randomiseRedPieces() //RANKS DO NOT MATCH TEXTURES AFTER RANDOMISATIO
     std::shuffle(&this->redUnits[0], &this->redUnits[40], std::default_random_engine(seed));
 
 
-    
-    
     //place red units on their side
     int x = 0;
     for (int i = 0; i < this->mainBoardSize; i++)
@@ -789,6 +787,8 @@ void Game::clickLogicDuringGame() {
 						this->selectedSpace->changeColour(sf::Color::Green);
 						this->selectedSpace = nullptr;
 						this->unitIsSelected = false;
+                        //Enemy move after player move !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        AImove();
 					}
                     else if (validateMove(this->selectedSpace, &board[i][j]) == BATTLE) {
                         if (board[i][j].getUnitPtr()->getAllegiance() == RED) {
@@ -798,10 +798,11 @@ void Game::clickLogicDuringGame() {
                         this->selectedSpace->changeColour(sf::Color::Green);
                         this->selectedSpace = nullptr;
                         this->unitIsSelected = false;
+                        //Enemy move after player move !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        AImove();
                     }
 
-                    //Enemy move after player move !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    //AImove();
+                    
 				}
 			}
 		}
@@ -838,8 +839,8 @@ bool Game::validateSetupMove(BoardSpace* to) {//ONLY ON BOTTOM BOARD
 
 bool Game::validateBoard()
 {
-    //DEBUGGING REENABLE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    /*for (int i = 6; i < 10; i++)
+    //TO DEBUG, DISABLE THIS
+    for (int i = 6; i < 10; i++)
     {
         for (int j = 0; j < 10; j++)
         {
@@ -847,7 +848,7 @@ bool Game::validateBoard()
                 return false;
             }
         }
-    }*/
+    }
 
     return true;
 }
@@ -1000,7 +1001,7 @@ void Game::battle(BoardSpace* attackerSpace, BoardSpace* defenderSpace) {
     }
     if (attackerSpace->getUnitPtr()->getAllegiance() == RED)
     {
-        attackerSpace->getUnitPtr()->hideUnit();
+        //attackerSpace->getUnitPtr()->hideUnit();
         attackerSpace->getUnitPtr()->hideUnit();
         render();
         Sleep(2000);
@@ -1049,12 +1050,15 @@ void Game::AImove() {
     srand(time(NULL));
 
 	bool valid = false;
+    bool downValid = false, upValid = false, leftValid = false, rightValid = false;
 	BoardSpace* from = nullptr;
 	BoardSpace* to = nullptr;
 	int fromi;
 	int fromj;
+    bool unitOnBoard = false;
 	while (!valid) {
-		int randIndex = rand() % armySize - 1;
+        int randIndex = rand() % this->armySize;
+        std::cout << "index: " << randIndex << std::endl;
 		Unit* unitToMove = &redUnits[randIndex];
 		//don't allow flags and bombs to be moved
 		if (unitToMove->getRank() == FLAG || unitToMove->getRank() == BOMB)
@@ -1070,47 +1074,62 @@ void Game::AImove() {
 					from = &this->board[i][j];
 					fromi = i;
 					fromj = j;
-					continue;
+                    std::cout << "i: " << i << std::endl;
+                    std::cout << "j: " << j << std::endl;
+                    unitOnBoard = true;
 				}
 			}
 		}
+        //if unit is dead, try again
+        if (unitOnBoard == false)
+        {
+            continue;
+        }
 
-
+        
 		//check if there is a space to move to or an enemy to attack next to the unit
 		if (fromi != 0)
 		{
 			if (this->board[fromi - 1][fromj].getUnitPtr() == nullptr) {
 				valid = true;
+                leftValid = true;
 			}
 			else if (this->board[fromi - 1][fromj].getUnitPtr()->getAllegiance() == BLUE) {
 				valid = true;
+                leftValid = true;
 			}
 		}
 		if (fromi != 9)
 		{
 			if (this->board[fromi + 1][fromj].getUnitPtr() == nullptr) {
 				valid = true;
+                rightValid = true;
 			}
 			else if (this->board[fromi + 1][fromj].getUnitPtr()->getAllegiance() == BLUE) {
 				valid = true;
+                rightValid = true;
 			}
 		}
 		if (fromj != 0)
 		{
 			if (this->board[fromi][fromj - 1].getUnitPtr() == nullptr) {
 				valid = true;
+                upValid = true;
 			}
 			else if (this->board[fromi][fromj - 1].getUnitPtr()->getAllegiance() == BLUE) {
 				valid = true;
+                upValid = true;
 			}
 		}
 		if (fromj != 9)
 		{
 			if (this->board[fromi][fromj + 1].getUnitPtr() == nullptr) {
 				valid = true;
+                downValid = true;
 			}
 			else if (this->board[fromi][fromj + 1].getUnitPtr()->getAllegiance() == BLUE) {
 				valid = true;
+                downValid = true;
 			}
 		}
 	}
@@ -1123,52 +1142,36 @@ void Game::AImove() {
 	valid = false;
 	while (!valid)
 	{
-		int randDirection = rand() % 3;
-
+		int randDirection = rand() % 4;
+        std::cout << "direction: " << randDirection << std::endl;
 		if (randDirection == 0)
 		{
-			if (fromi != 0)
+			if (upValid)
 			{
-				if (this->board[fromi - 1][fromj].getUnitPtr() == nullptr) {
-					valid = true;
-				}
-				else if (this->board[fromi - 1][fromj].getUnitPtr()->getAllegiance() == BLUE) {
-					valid = true;
-				}
+                to = &this->board[fromi][fromj - 1];
+                valid = true;
 			}
 		}
 		else if (randDirection == 1) {
-			if (fromi != 9)
-			{
-				if (this->board[fromi + 1][fromj].getUnitPtr() == nullptr) {
-					valid = true;
-				}
-				else if (this->board[fromi + 1][fromj].getUnitPtr()->getAllegiance() == BLUE) {
-					valid = true;
-				}
-			}
+            if (downValid)
+            {
+                to = &this->board[fromi][fromj + 1];
+                valid = true;
+            }
 		}
 		else if (randDirection == 2) {
-			if (fromj != 0)
-			{
-				if (this->board[fromi][fromj - 1].getUnitPtr() == nullptr) {
-					valid = true;
-				}
-				else if (this->board[fromi][fromj - 1].getUnitPtr()->getAllegiance() == BLUE) {
-					valid = true;
-				}
-			}
+            if (leftValid)
+            {
+                to = &this->board[fromi - 1][fromj];
+                valid = true;
+            }
 		}
 		else {
-			if (fromj != 9)
-			{
-				if (this->board[fromi][fromj + 1].getUnitPtr() == nullptr) {
-					valid = true;
-				}
-				else if (this->board[fromi][fromj + 1].getUnitPtr()->getAllegiance() == BLUE) {
-					valid = true;
-				}
-			}
+            if (rightValid)
+            {
+                to = &this->board[fromi + 1][fromj];
+                valid = true;
+            }
 		}
 	}
 
@@ -1179,6 +1182,8 @@ void Game::AImove() {
 	else if (validateMove(from, to) == BATTLE) {
 		battle(from, to);
 	}
+
+    std::cout << "Move complete!" << std::endl;
 }
 
 
