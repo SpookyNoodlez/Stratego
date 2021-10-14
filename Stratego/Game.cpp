@@ -781,6 +781,12 @@ void Game::clickLogicDuringGame() {
 					this->board[i][j].changeColour(sf::Color::Red);
 					this->selectedSpace = &board[i][j];
 				}
+                else if (this->unitIsSelected && this->selectedSpace == &board[i][j])
+                {
+                    this->unitIsSelected = false;
+                    this->board[i][j].changeColour(sf::Color::Green);
+                    this->selectedSpace = nullptr;
+                }
 				else if (this->unitIsSelected) {
 					if (validateMove(this->selectedSpace, &board[i][j]) == MOVE) {
 						moveUnit(this->selectedSpace, &board[i][j]);
@@ -864,6 +870,12 @@ void Game::clickLogicDuringSetup() {
 					this->board[i][j].changeColour(sf::Color::Red);
 					this->selectedSpace = &board[i][j];
 				}
+                else if (this->unitIsSelected && this->selectedSpace == &board[i][j])
+                {
+                    this->unitIsSelected = false;
+                    this->board[i][j].changeColour(sf::Color::Green);
+                    this->selectedSpace = nullptr;
+                }
 				else if (this->unitIsSelected) {
 					if (validateSetupMove(&board[i][j])) {
 						moveUnit(this->selectedSpace, &board[i][j]);
@@ -886,6 +898,12 @@ void Game::clickLogicDuringSetup() {
 					this->sideBoardBlue[j][i].changeColour(sf::Color::Red);
 					this->selectedSpace = &sideBoardBlue[j][i];
 				}
+                else if (this->unitIsSelected && this->selectedSpace == &sideBoardBlue[j][i])
+                {
+                    this->unitIsSelected = false;
+                    this->sideBoardBlue[j][i].changeColour(sf::Color::Green);
+                    this->selectedSpace = nullptr;
+                }
 				else if (this->unitIsSelected) {
 					if (validateSetupMove(&sideBoardBlue[j][i])) {
 						moveUnit(this->selectedSpace, &sideBoardBlue[j][i]);
