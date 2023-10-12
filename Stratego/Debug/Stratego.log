@@ -1,7 +1,12 @@
-﻿  Game.cpp
-E:\OneDrive\Kurser2021\Labb2\Stratego\Stratego\Game.cpp(557,19): warning C4244: 'initializing': conversion from '_Rep' to 'unsigned int', possible loss of data
+﻿  BoardSpace.cpp
+  Game.cpp
+G:\OneDrive\Dokument\GitHub\Stratego\Stratego\Game.cpp(557,19): warning C4244: 'initializing': conversion from '_Rep' to 'unsigned int', possible loss of data
           with
           [
               _Rep=std::chrono::system_clock::rep
           ]
-  Stratego.vcxproj -> E:\OneDrive\Kurser2021\Labb2\Stratego\Debug\Stratego.exe
+G:\OneDrive\Dokument\GitHub\Stratego\Stratego\Game.cpp(1068,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Main.cpp
+  Unit.cpp
+  Generating Code...
+  Stratego.vcxproj -> G:\OneDrive\Dokument\GitHub\Stratego\Debug\Stratego.exe
